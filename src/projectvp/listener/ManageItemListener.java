@@ -6,6 +6,7 @@
 package projectvp.listener;
 
 import javax.swing.table.TableModel;
+import projectvp.database.barang.Barang;
 import projectvp.model.ItemTableModel;
 
 /**
@@ -14,6 +15,6 @@ import projectvp.model.ItemTableModel;
  */
 public interface ManageItemListener {
     public void moveToAddItem();
-    public void moveToEditItem(int selectedRow, TableModel table);
+    public void moveToEditItem(int selectedRow, TableModel table, Barang prevBarang);
     public ItemTableModel searchItem(ItemTableModel itm, String keyword);
 }

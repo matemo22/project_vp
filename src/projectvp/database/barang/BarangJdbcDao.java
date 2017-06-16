@@ -46,6 +46,7 @@ public class BarangJdbcDao {
             while(rs.next())
             {
                 Barang barang = new Barang();
+                barang.setId(rs.getInt("id"));
                 barang.setName(rs.getString("name"));
                 barang.setProduct(rs.getString("product"));
                 barang.setJenis(rs.getString("jenis"));
@@ -119,15 +120,10 @@ public class BarangJdbcDao {
     public boolean updateBarang(Barang newBarang, Barang prevBarang)
     {
         int berhasil = 0;
-        String query = "UPDATE barang SET name = ?, product = ?, jenis = ?, supplier = ?, harga = ?, quantity = ?, gudang = ? WHERE name = ?";
-//        String query = "UPDATE barang SET name = ? WHERE name = ?";
-        System.out.println(query);
+        String query = "UPDATE barang SET name = ?, product = ?, jenis = ?, supplier = ?, harga = ?, quantity = ?, gudang = ? WHERE id = ?";
         PreparedStatement pstmt = null;
         try {
-            System.out.println("pstmt1");
             pstmt = conn.prepareStatement(query);
-//            pstmt.setString(1, newBarang.getName());
-//            pstmt.setString(2, prevBarang.getName());
             pstmt.setString(1, newBarang.getName());
             pstmt.setString(2, newBarang.getProduct());
             pstmt.setString(3, newBarang.getJenis());
@@ -135,7 +131,7 @@ public class BarangJdbcDao {
             pstmt.setInt(5, newBarang.getHarga());
             pstmt.setInt(6, newBarang.getQty());
             pstmt.setInt(7, newBarang.getGudang());
-            pstmt.setString(8, prevBarang.getName());
+            pstmt.setInt(8, prevBarang.getId());
             berhasil = pstmt.executeUpdate();
             conn.commit();
         } catch (SQLException ex) {

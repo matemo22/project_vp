@@ -47,9 +47,10 @@ public class EditItemPanel extends JPanel implements ActionListener, ItemListene
     Vector<Supplier> suppliers = new SupplierService().getSupplier();
     private Barang prevBarang;
     
-    public EditItemPanel(ItemTableModel itm, int selectedIndex) {
+    public EditItemPanel(ItemTableModel itm, int selectedIndex, Barang prevBarang) {
         this.itm = itm;
         this.selectedIndex = selectedIndex;
+        this.prevBarang = prevBarang;
         initComponent();
         buildGui();
         registerListener();
@@ -98,7 +99,7 @@ public class EditItemPanel extends JPanel implements ActionListener, ItemListene
         productBox.setModel(productModel);
         for (int i = 0; i < product.length; i++) 
         {
-            productModel.addElement(product[i]);
+            
         }
         
         supplierLocationBox = new JComboBox(locationModel);
@@ -107,19 +108,12 @@ public class EditItemPanel extends JPanel implements ActionListener, ItemListene
         editButton = new JButton("Edit");
         cancelButton = new JButton("Cancel");
         
-        prevBarang = new Barang();
-        Object[] temp = new Object[7];
-        for (int i = 0; i < temp.length; i++)
-        {
-            temp[i]=itm.getValueAt(selectedIndex, i);
-        }
-        prevBarang.setName(temp[0].toString());
-        
         itemTypeBox = new JComboBox(typeModel);
         typeModel.addElement("--Choose--");
         for (int i = 0; i < product.length; i++)
         {
-            if(temp[1].toString().equals(product[i]))
+            productModel.addElement(product[i]);
+            if(prevBarang.getProduct().equals(product[i]))
             {
                 productBox.setSelectedIndex(i);
                 typeModel.removeAllElements();
@@ -132,16 +126,13 @@ public class EditItemPanel extends JPanel implements ActionListener, ItemListene
                         for (int k = 0; k < type[j].length; k++)
                         {
                             typeModel.addElement(type[j][k]);
-                            if(type[j][k].equals(temp[2]))
+                            if(type[j][k].equals(prevBarang.getJenis()))
                                 itemTypeBox.setSelectedIndex(k+1);
                         }
                     }
                 }
-                break;
             }
         }
-        
-        String[] supp = temp[3].toString().split(" ");
         
         supplierNameBox = new JComboBox(brandModel);
         brandModel.addElement("--Choose--");
@@ -149,7 +140,7 @@ public class EditItemPanel extends JPanel implements ActionListener, ItemListene
         for(Brand a : brands)
         {
             brandModel.addElement(a.getName());
-            if(supp[0].equals(a.getName()))
+            if(prevBarang.getSupplier().getMerek().getName().equals(a.getName()))
             {
                 supplierNameBox.setSelectedIndex(i);
                 supplierLocationBox.setEnabled(true);
@@ -160,7 +151,7 @@ public class EditItemPanel extends JPanel implements ActionListener, ItemListene
                     if(supplierNameBox.getSelectedItem().equals(b.getMerek().getName()))
                     {
                         locationModel.addElement(b.getLocation());
-                        if(supp[1].equals(b.getLocation()))
+                        if(prevBarang.getSupplier().getLocation().equals(b.getLocation()))
                             supplierLocationBox.setSelectedIndex(j);
                         j++;
                     }
@@ -169,11 +160,11 @@ public class EditItemPanel extends JPanel implements ActionListener, ItemListene
             i++;
         }
         editNameField = new JTextField();
-        editNameField.setText(temp[0].toString());
+        editNameField.setText(prevBarang.getName().toString());
         editPriceField = new JTextField();
-        editPriceField.setText(temp[4].toString());
+        editPriceField.setText(String.valueOf(prevBarang.getHarga()));
         editQuantityField = new JTextField();
-        editQuantityField.setText(temp[5].toString());
+        editQuantityField.setText(String.valueOf(prevBarang.getQty()));
         
     }
     
@@ -181,6 +172,8 @@ public class EditItemPanel extends JPanel implements ActionListener, ItemListene
     {
         editButton.addActionListener(this);
         cancelButton.addActionListener(this);
+        productBox.addItemListener(this);
+        supplierNameBox.addItemListener(this);
     }
     
     @Override
@@ -195,7 +188,7 @@ public class EditItemPanel extends JPanel implements ActionListener, ItemListene
             a.setName(editNameField.getText());
             a.setHarga(Integer.parseInt(editPriceField.getText()));
             a.setQty(Integer.parseInt(editQuantityField.getText()));
-            a.setProduct(itemTypeBox.getSelectedItem().toString());
+            a.setJenis(itemTypeBox.getSelectedItem().toString());
             a.setGudang(1);
             for (Supplier s : suppliers)
             {
@@ -208,8 +201,8 @@ public class EditItemPanel extends JPanel implements ActionListener, ItemListene
                     }
                 }
             }
-            a.setJenis(productBox.getSelectedItem().toString());
-            listener.editItem(a, null);
+            a.setProduct(productBox.getSelectedItem().toString());
+            listener.editItem(a, prevBarang, selectedIndex, itm);
         }
     }
     
@@ -243,6 +236,8 @@ public class EditItemPanel extends JPanel implements ActionListener, ItemListene
             editButton.setEnabled(true);
             if(supplierNameBox.getSelectedIndex()!=0)
             {
+                supplierLocationBox.setEnabled(true);
+                locationModel.removeAllElements();
                 for (Supplier a : suppliers)
                 {
                     if(supplierNameBox.getSelectedItem().equals(a.getMerek().getName()))

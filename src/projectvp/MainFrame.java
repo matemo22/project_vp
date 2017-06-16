@@ -296,8 +296,8 @@ implements LoginListener, ActionListener, KeyListener, MasterListener, ManageIte
     }
 
     @Override
-    public void moveToEditItem(int selectedRow, TableModel table) {
-        EditItemPanel editItemPanel = new EditItemPanel((ItemTableModel)table, selectedRow);
+    public void moveToEditItem(int selectedRow, TableModel table, Barang prevBarang) {
+        EditItemPanel editItemPanel = new EditItemPanel((ItemTableModel)table, selectedRow, prevBarang);
         editItemPanel.addListener(this);
         this.setVisible(false);
         this.setContentPane(editItemPanel);
@@ -339,8 +339,17 @@ implements LoginListener, ActionListener, KeyListener, MasterListener, ManageIte
     }
     
     @Override
-    public void editItem(Barang newBarang, Barang prevBarang) {
-        
+    public void editItem(Barang newBarang, Barang prevBarang, int selectedIndex, ItemTableModel itm) {
+        itm.editRow(newBarang, selectedIndex);
+        BarangModel aim = new BarangModel();
+        boolean hasil = aim.editBarang(newBarang, prevBarang);
+        historyPanel.removeElement(historyPanel.lastElement());
+        ManageItemPanel panel = (ManageItemPanel) historyPanel.lastElement();
+        this.setVisible(false);
+        this.setContentPane(panel);
+        this.pack();
+        this.repaint();
+        this.setVisible(true);
     }
     
     @Override

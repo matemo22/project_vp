@@ -114,7 +114,8 @@ public class ManageItemPanel extends JPanel implements TableModelListener, ListS
         }
         if(e.getSource().equals(editButton))
         {
-            listener.moveToEditItem(selectedIndex, getTableModel());
+            Barang prevBarang = getTableModel().getBarang((String) getTableModel().getValueAt(selectedIndex, 0));
+            listener.moveToEditItem(selectedIndex, getTableModel(), prevBarang);
         }
         if(e.getSource().equals(goButton))
         {

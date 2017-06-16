@@ -6,6 +6,7 @@
 package projectvp.listener;
 
 import projectvp.database.barang.Barang;
+import projectvp.model.ItemTableModel;
 
 /**
  *
@@ -14,5 +15,5 @@ import projectvp.database.barang.Barang;
 public interface ItemsListener {
     public void saveItem(Barang newBarang);
     public void cancel();
-    public void editItem(Barang newBarang, Barang prevBarang);
+    public void editItem(Barang newBarang, Barang prevBarang, int selectedIndex, ItemTableModel itm);
 }
