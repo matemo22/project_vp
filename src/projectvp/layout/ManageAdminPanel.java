@@ -11,6 +11,7 @@ import java.awt.Dimension;
 import java.awt.Font;
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
+import projectvp.model.AdminTableModel;
 import projectvp.model.ItemTableModel;
 
 /**
@@ -44,7 +45,7 @@ public class ManageAdminPanel extends JPanel {
         
         this.add(titleLabel, c.xyw(4,2,2, CellConstraints.CENTER, CellConstraints.CENTER));
         this.add(searchField,c.xy(2, 4));
-//        this.add(tablePane, c.xywh(2, 6,3,4));
+        this.add(tablePane, c.xywh(2, 6,7,4));
         this.add(goButton, c.xy(4, 4,CellConstraints.CENTER, CellConstraints.CENTER));
 //        this.add(filter, c.xy(6, 4));
         this.add(addItemButton, c.xy(6, 4));
@@ -59,9 +60,7 @@ public class ManageAdminPanel extends JPanel {
         addItemButton = new JButton("Add Admin");
         detailItemButton = new JButton("Edit Admin");
         
-      
-        
-        ItemTableModel tableModel = new ItemTableModel(); 
+        AdminTableModel tableModel = new AdminTableModel();
         itemTable = new JTable();
         itemTable.setModel(tableModel);
         itemTable.setAutoCreateRowSorter(true);
