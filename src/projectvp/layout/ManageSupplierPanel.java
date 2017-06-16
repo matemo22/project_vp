@@ -21,6 +21,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.border.TitledBorder;
 import projectvp.database.barang.Barang;
 import projectvp.model.ItemTableModel;
+import projectvp.model.SupplierTableModel;
 
 /**
  *
@@ -31,7 +32,7 @@ public class ManageSupplierPanel extends JPanel {
     private JTextField searchField;
     private JButton goButton, addItemButton, detailItemButton;
     private JComboBox filter;
-    private JTable itemTable;
+    private JTable supplierTable;
     private JScrollPane tablePane;
     private Barang[] allBarang;
 
@@ -66,17 +67,17 @@ public class ManageSupplierPanel extends JPanel {
         addItemButton = new JButton("Add Supplier");
         detailItemButton = new JButton("Edit Supplier");
         
-        ItemTableModel tableModel = new ItemTableModel(); 
-        itemTable = new JTable();
-        itemTable.setModel(tableModel);
-        itemTable.setAutoCreateRowSorter(true);
-        itemTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        itemTable.setRowSelectionAllowed(true);
-        itemTable.setColumnSelectionAllowed(false);
-        itemTable.setRowHeight(30);
+        SupplierTableModel tableModel = new SupplierTableModel(); 
+        supplierTable = new JTable();
+        supplierTable.setModel(tableModel);
+        supplierTable.setAutoCreateRowSorter(true);
+        supplierTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        supplierTable.setRowSelectionAllowed(true);
+        supplierTable.setColumnSelectionAllowed(false);
+        supplierTable.setRowHeight(30);
         
         
-        tablePane = new JScrollPane(itemTable);
+        tablePane = new JScrollPane(supplierTable);
         tablePane.setPreferredSize(new Dimension(400, 100));
     }
 }
