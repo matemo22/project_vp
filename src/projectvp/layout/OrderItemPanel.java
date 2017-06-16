@@ -11,40 +11,62 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.util.Vector;
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
+import projectvp.database.Brand.Brand;
+import projectvp.database.Brand.BrandService;
 import projectvp.database.barang.Barang;
+import projectvp.database.supplier.Supplier;
+import projectvp.database.supplier.SupplierService;
 import projectvp.listener.OrderItemListener;
 import projectvp.model.ItemTableModel;
+import projectvp.model.OrderItemModel;
 
 /**
  *
  * @author user
  */
-public class OrderItemPanel extends JPanel implements ActionListener, TableModelListener, ListSelectionListener{
+public class OrderItemPanel extends JPanel implements ActionListener, TableModelListener, ListSelectionListener,
+        ItemListener {
 
     private JLabel titleLabel;
     private JComboBox pickSupplier, pickSuppLocation;
     private JButton addOrder, finishOrder, deleteOrder, clearAll, editOrder;
-    private JTable itemTable;
+    private JTable orderTable;
     private JScrollPane tablePane;
-    private Barang[] allBarang;
     private OrderItemListener orderItemListener;
-
+    private DefaultComboBoxModel suppplierModel = new DefaultComboBoxModel();
+    Vector<Brand> brands = new BrandService().getBrands();
+    private DefaultComboBoxModel locationSuppModel = new DefaultComboBoxModel();
+    Vector<Supplier> suppliers = new SupplierService().getSupplier();
+    private OrderItemModel oim;
+    int selectedRow;
+             
     public OrderItemPanel() {
         initComponent();
         buildGui();
         registerListener();
     }
-    public void addListener(OrderItemListener a){
-        this.orderItemListener= a;
+
+    public void addListener(OrderItemListener a) {
+        this.orderItemListener = a;
     }
-    
-     private void registerListener() {
-         addOrder.addActionListener(this);
+
+    private void registerListener() {
+        orderTable.getSelectionModel().addListSelectionListener(this);
+        orderTable.getModel().addTableModelListener(this);
+        addOrder.addActionListener(this);
+        editOrder.addActionListener(this);
+        pickSupplier.addItemListener(this);
+        deleteOrder.addActionListener(this);
+        finishOrder.addActionListener(this);
+        clearAll.addActionListener(this);
     }
 
     private void buildGui() {
@@ -74,6 +96,7 @@ public class OrderItemPanel extends JPanel implements ActionListener, TableModel
         titleLabel = new JLabel("Order Item");
         titleLabel.setFont(new Font("Arial", Font.BOLD, 30));
         addOrder = new JButton("Add Item");
+        addOrder.setEnabled(false);
         deleteOrder = new JButton("Delete");
         deleteOrder.setEnabled(false);
         editOrder = new JButton("Edit");
@@ -82,47 +105,109 @@ public class OrderItemPanel extends JPanel implements ActionListener, TableModel
         clearAll.setEnabled(false);
         finishOrder = new JButton("Order!");
         finishOrder.setEnabled(false);
-        pickSupplier = new JComboBox();
-        pickSupplier.addItem("Supplier");
-        pickSuppLocation = new JComboBox();
-        pickSuppLocation.addItem("Location");
 
-        ItemTableModel tableModel = new ItemTableModel();
-        itemTable = new JTable();
-        itemTable.setModel(tableModel);
-        itemTable.setAutoCreateRowSorter(true);
-        itemTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        itemTable.setRowSelectionAllowed(true);
-        itemTable.setColumnSelectionAllowed(false);
-        itemTable.setRowHeight(30);
+        pickSupplier = new JComboBox(suppplierModel);
+        suppplierModel.addElement("--Choose--");
+        for (Brand a : brands) {
+            suppplierModel.addElement(a.getName());
+        }
 
-        tablePane = new JScrollPane(itemTable);
+        pickSuppLocation = new JComboBox(locationSuppModel);
+        pickSuppLocation.setEnabled(false);
+
+        OrderItemModel tableModel = new OrderItemModel();
+        orderTable = new JTable();
+        orderTable.setModel(tableModel);
+        orderTable.setAutoCreateRowSorter(true);
+        orderTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        orderTable.setRowSelectionAllowed(true);
+        orderTable.setColumnSelectionAllowed(false);
+        orderTable.setRowHeight(30);
+
+        tablePane = new JScrollPane(orderTable);
         tablePane.setPreferredSize(new Dimension(400, 100));
     }
 
-     
+    public OrderItemModel getOrderTable() {
+        return (OrderItemModel) orderTable.getModel();
+    }
+
+    public JComboBox getPickSupplier() {
+        return pickSupplier;
+    }
+
+    public JComboBox getPickSuppLocation() {
+        return pickSuppLocation;
+    }
+
+    public DefaultComboBoxModel getLocationSuppModel() {
+        return locationSuppModel;
+    }
+
+    public DefaultComboBoxModel getSuppplierModel() {
+        return suppplierModel;
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource().equals(addOrder)) {
-            orderItemListener.moveToAddItemOrder();
             
-        }
-        if (e.getSource().equals(itemTable.isRowSelected(0))) {
-            deleteOrder.setEnabled(true);
-            editOrder.setEnabled(true);
-            
+            orderItemListener.moveToAddItemOrder(pickSupplier.getSelectedItem(), pickSuppLocation.getSelectedItem());
+
         }
         
+        if (e.getSource().equals(deleteOrder)) {
+           OrderItemModel oim= (OrderItemModel) orderTable.getModel();
+           oim.hapus(orderTable.getSelectedRow());
+
+        }
+         if(e.getSource().equals(editOrder)){
+            orderItemListener.moveToEditItemOrder(selectedRow, (OrderItemModel)orderTable.getModel());     
+                 
+             
+         }
+
     }
 
     @Override
     public void tableChanged(TableModelEvent tme) {
+        if (!orderTable.equals(null)) {
+            finishOrder.setEnabled(true);
+
+        }
     }
+
     @Override
     public void valueChanged(ListSelectionEvent e) {
-        if (itemTable.getSelectedRow() > -1) {
+         
+        if (orderTable.getSelectedRow() > -1) {
             deleteOrder.setEnabled(true);
             editOrder.setEnabled(true);
+        }
+        if (e.getSource().equals(orderTable.getSelectionModel())) {
+            selectedRow=orderTable.getSelectedRow();
+        }
+      
+    }
+
+    @Override
+    public void itemStateChanged(ItemEvent e) {
+        if (e.getSource().equals(pickSupplier)) {
+            if (pickSupplier.getSelectedIndex() != 0) {
+                //Isi SupplierLocationBox
+                pickSuppLocation.setEnabled(true);
+                locationSuppModel.removeAllElements();
+                locationSuppModel.addElement("--Choose--");
+                for (Supplier a : suppliers) {
+                    if (pickSupplier.getSelectedItem().equals(a.getMerek().getName())) {
+                        locationSuppModel.addElement(a.getLocation());
+                    }
+                }
+                addOrder.setEnabled(true);
+            } else {
+                locationSuppModel.removeAllElements();
+                pickSuppLocation.setEnabled(false);
+            }
         }
     }
 

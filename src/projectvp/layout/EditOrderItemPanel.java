@@ -13,15 +13,22 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import javax.swing.*;
-import javax.swing.border.TitledBorder;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.table.TableModel;
 import projectvp.listener.AddItemOrderListener;
+import projectvp.listener.EditOrderItemListener;
+import projectvp.model.OrderItemModel;
 
 /**
  *
  * @author user
  */
-public class AddItemOrderPanel extends JPanel implements ActionListener, ItemListener {
+public class EditOrderItemPanel extends JPanel implements ActionListener, ItemListener {
 
     private JLabel titleLabel;
     private JTextField detailNamePanel, detailQuantityField;
@@ -31,29 +38,34 @@ public class AddItemOrderPanel extends JPanel implements ActionListener, ItemLis
     private String[][] type = {{"LED", "LCD", "CRT"}, {"Satu Pintu", "Dua Pintu"}, {"Top Load", "Front Load"}, {"Upside", "Downside"}, {"AC Standart", "AC Low Watt", "AC Hybrid", "AC Inverter"}};
     private DefaultComboBoxModel productModel = new DefaultComboBoxModel();
     private DefaultComboBoxModel itemTypeModel = new DefaultComboBoxModel();
-    private AddItemOrderListener addItemOrderListener;
+    private EditOrderItemListener editItemOrderListener;
     private OrderItemPanel oip;
-    String supplier,supplocation;
+    private OrderItemModel oim;
+    private int selectedRow;
 
     public OrderItemPanel getOip() {
         return oip;
     }
 
-    public AddItemOrderPanel() {
+    public EditOrderItemPanel() {
         initComponent();
         buildGui();
         registerListener();
-    }
-    public AddItemOrderPanel(String merek, String location) {
-        initComponent();
-        buildGui();
-        registerListener();
-       supplier=merek;
-       supplocation=location;
     }
 
-    public void addListener(AddItemOrderListener a) {
-        this.addItemOrderListener = a;
+    public EditOrderItemPanel(int row, OrderItemModel table) {
+        
+        oim = table;
+        selectedRow = row;
+        initComponent();
+        buildGui();
+        registerListener();
+        
+      
+    }
+
+    public void addListener(EditOrderItemListener a) {
+        this.editItemOrderListener = a;
 
     }
 
@@ -83,26 +95,58 @@ public class AddItemOrderPanel extends JPanel implements ActionListener, ItemLis
     }
 
     private void initComponent() {
-        titleLabel = new JLabel("Order Item");
+        titleLabel = new JLabel("Edit Item");
         titleLabel.setFont(new Font("Arial", Font.BOLD, 30));
         productBox = new JComboBox();
         productBox.setModel(productModel);
         for (int i = 0; i < product.length; i++) {
             productModel.addElement(product[i]);
         }
-        productBox.setSelectedIndex(0);
-
+        
         itemTypeBox = new JComboBox(itemTypeModel);
-        itemTypeBox.setEnabled(false);
+         itemTypeModel.addElement("--Choose--");
+         
+        Object[] temp= new Object[5];
+        for (int i = 0; i < temp.length; i++) {
+            temp[i]= oim.getValueAt(selectedRow, i);
+        }
+        
+        
+        for (int i = 0; i < product.length; i++) 
+        {
+
+            if (temp[1].toString().equals(product[i])) 
+            {
+                productBox.setSelectedIndex(i);
+                itemTypeModel.removeAllElements();
+                itemTypeModel.addElement("--Choose--");
+                itemTypeBox.setEnabled(true);
+                for (int j = 0; j < type.length; j++) 
+                { 
+                    if (productBox.getSelectedIndex() == (j + 1)) 
+                    {
+                        for (int k = 0; k < type[j].length; k++) 
+                        {
+                            itemTypeModel.addElement(type[j][k]);
+                            if (type[j][k].equals(temp[2]))
+                            {
+                                itemTypeBox.setSelectedIndex(k + 1);
+                            }
+                        }
+                    }
+                }
+                   break;
+            }
+         
+        }
 
         saveButton = new JButton("Save");
-        saveButton.setEnabled(false);
         cancelButton = new JButton("Cancel");
 
         detailNamePanel = new JTextField();
-        detailNamePanel.setEnabled(false);
+        detailNamePanel.setText(temp[0].toString());
         detailQuantityField = new JTextField();
-        detailQuantityField.setEnabled(false);
+        detailQuantityField.setText(temp[4].toString());
 
     }
 
@@ -116,47 +160,29 @@ public class AddItemOrderPanel extends JPanel implements ActionListener, ItemLis
     @Override
     public void actionPerformed(ActionEvent e) {
 
-        
         if (e.getSource().equals(saveButton)) {
             
+        Object[] temp= new Object[5];
+        for (int i = 0; i < temp.length; i++) {
+            temp[i]= oim.getValueAt(selectedRow, i);
+        }
             Object[] newOrder = new Object[5];
-            newOrder[0]=this.detailNamePanel.getText();
-            newOrder[1]=productBox.getSelectedItem();
-            newOrder[2]=itemTypeBox.getSelectedItem();
-            newOrder[3]=supplier+" "+supplocation;
-            newOrder[4]=detailQuantityField.getText();
-            addItemOrderListener.saveOrder(newOrder);
+            newOrder[0] = this.detailNamePanel.getText();
+            newOrder[1] = this.productBox.getSelectedItem();
+            newOrder[2] = this.itemTypeBox.getSelectedItem();
+            newOrder[3] = temp[3];
+            newOrder[4] = this.detailQuantityField.getText();
+            editItemOrderListener.saveOrderEdit(newOrder,selectedRow);
 
         }
         if (e.getSource().equals(cancelButton)) {
-            addItemOrderListener.cancelToOrder();
+            editItemOrderListener.cancelToOrderEdit();
         }
     }
 
     @Override
     public void itemStateChanged(ItemEvent e) {
-        if (e.getSource().equals(productBox)) {
-            if (productBox.getSelectedIndex() != 0) {
-                saveButton.setEnabled(true);
-                detailNamePanel.setEnabled(true);
-                detailQuantityField.setEnabled(true);
-                itemTypeBox.setEnabled(true);
-                itemTypeModel.removeAllElements();
-                itemTypeModel.addElement("--Choose--");
-                for (int i = 0; i < type.length; i++) {
-                    if (productBox.getSelectedIndex() == (i + 1)) {
-                        for (int j = 0; j < type[i].length; j++) {
-                            itemTypeModel.addElement(type[i][j]);
-                        }
-                    }
-                }
-            } else {
-                saveButton.setEnabled(false);
-                detailNamePanel.setEnabled(false);
-                detailQuantityField.setEnabled(false);
-                itemTypeBox.setEnabled(false);
-            }
-        }
+     
     }
 
     public JTextField getDetailNamePanel() {
@@ -182,5 +208,4 @@ public class AddItemOrderPanel extends JPanel implements ActionListener, ItemLis
     public DefaultComboBoxModel getItemTypeModel() {
         return itemTypeModel;
     }
-
 }

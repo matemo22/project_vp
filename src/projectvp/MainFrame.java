@@ -19,19 +19,24 @@ import projectvp.database.user.User;
 import projectvp.layout.AddItemOrderPanel;
 import projectvp.layout.AddItemPanel;
 import projectvp.layout.EditItemPanel;
+import projectvp.layout.EditOrderItemPanel;
 import projectvp.model.ItemTableModel;
 import projectvp.layout.LoginPanel;
 import projectvp.layout.ManageAdminPanel;
 import projectvp.layout.ManageSupplierPanel;
 import projectvp.layout.MasterPanel;
 import projectvp.layout.OrderItemPanel;
+import projectvp.listener.AddItemOrderListener;
+import projectvp.listener.EditOrderItemListener;
 import projectvp.listener.ItemsListener;
 import projectvp.listener.LoginListener;
 import projectvp.listener.ManageItemListener;
+import projectvp.listener.ManageSupplierListener;
 import projectvp.listener.MasterListener;
 import projectvp.listener.OrderItemListener;
 import projectvp.model.BarangModel;
 import projectvp.model.LoginModel;
+import projectvp.model.OrderItemModel;
 
 /**
  *
@@ -39,7 +44,7 @@ import projectvp.model.LoginModel;
  */
 public class MainFrame extends JFrame
 implements LoginListener, ActionListener, KeyListener, MasterListener, ManageItemListener,
-        ItemsListener, OrderItemListener
+        ItemsListener, OrderItemListener, EditOrderItemListener,ManageSupplierListener, AddItemOrderListener
     {
     private Vector<JPanel> historyPanel=new Vector<JPanel>();
     private JMenuBar menuBar, loginMenuBar;
@@ -352,13 +357,121 @@ implements LoginListener, ActionListener, KeyListener, MasterListener, ManageIte
         this.setVisible(true);
     }
     
+  //order item
+
     @Override
-    public void moveToAddItemOrder() {
-        AddItemOrderPanel addOrderItemPanel = new AddItemOrderPanel();
+    public void moveToAddItemOrder(Object a, Object b) {
+        AddItemOrderPanel addOrderItemPanel = new AddItemOrderPanel(a.toString(), b.toString());
+        addOrderItemPanel.addListener(this);
         this.setVisible(false);
         this.setContentPane(addOrderItemPanel);
         this.pack();
         this.setVisible(true);
         historyPanel.add(addOrderItemPanel);
+    }
+
+    @Override
+    public void moveToEditItemOrder(int selectedRow, TableModel table) {
+        EditOrderItemPanel editItemOrderPanel = new EditOrderItemPanel(selectedRow, (OrderItemModel) table);
+        editItemOrderPanel.addListener(this);
+        this.setVisible(false);
+        this.setContentPane(editItemOrderPanel);
+        this.pack();
+        this.setVisible(true);
+        historyPanel.add(editItemOrderPanel);
+
+    }
+
+    @Override
+    public void finishOrder() {
+
+    }
+
+    @Override
+    public void deleteOrder() {
+        OrderItemPanel orderItemPanel = new OrderItemPanel();
+        orderItemPanel.addListener(this);
+        this.setVisible(false);
+        this.setContentPane(orderItemPanel);
+        this.pack();
+        this.setVisible(true);
+        historyPanel.add(orderItemPanel);
+    }
+
+    @Override
+    public void clearAll() {
+
+    }
+    
+     //addorderitem
+    @Override
+    public void cancelToOrder() {
+        historyPanel.removeElement(historyPanel.lastElement());
+        OrderItemPanel panel = (OrderItemPanel) historyPanel.lastElement();
+        this.setVisible(false);
+        this.setContentPane(panel);
+        this.pack();
+        this.repaint();
+        this.setVisible(true);
+    }
+
+    @Override
+    public void saveOrder(Object[] newOrder) {
+        historyPanel.removeElement(historyPanel.lastElement());
+        OrderItemPanel panel = (OrderItemPanel) historyPanel.lastElement();
+        OrderItemModel itm = panel.getOrderTable();
+
+//        newOrder[0] = a.getDetailNamePanel().getText();
+//        newOrder[1] = a.getProductBox().getSelectedItem();
+//        newOrder[2] = a.getProductModel().getSelectedItem();
+//        newOrder[3] = "aaa";
+//        newOrder[4] = a.getDetailQuantityField().getText();
+        itm.addRow(newOrder);
+        this.setVisible(false);
+        this.setContentPane(panel);
+        this.pack();
+        this.repaint();
+        this.setVisible(true);
+    }
+
+    //editOrder
+    @Override
+    public void cancelToOrderEdit()
+    {
+        historyPanel.removeElement(historyPanel.lastElement());
+        OrderItemPanel panel = (OrderItemPanel) historyPanel.lastElement();
+        this.setVisible(false);
+        this.setContentPane(panel);
+        this.pack();
+        this.repaint();
+        this.setVisible(true);
+    }
+    
+    @Override
+    public void saveOrderEdit(Object[] newOrder, int selectedRow) {
+        historyPanel.removeElement(historyPanel.lastElement());
+        OrderItemPanel panel = (OrderItemPanel) historyPanel.lastElement();
+        OrderItemModel itm = panel.getOrderTable();
+
+//        newOrder[0] = a.getDetailNamePanel().getText();
+//        newOrder[1] = a.getProductBox().getSelectedItem();
+//        newOrder[2] = a.getProductModel().getSelectedItem();
+//        newOrder[3] = "aaa";
+//        newOrder[4] = a.getDetailQuantityField().getText();
+        itm.editRow(newOrder,selectedRow);
+        this.setVisible(false);
+        this.setContentPane(panel);
+        this.pack();
+        this.repaint();
+        this.setVisible(true);
+    }
+    
+    //managesupplier
+    @Override
+    public void moveToAddSupplier() {
+    }
+
+    @Override
+    public void moveToEditSupplier() {
     }
 }

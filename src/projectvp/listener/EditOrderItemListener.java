@@ -5,15 +5,11 @@
  */
 package projectvp.listener;
 
-import projectvp.layout.AddItemOrderPanel;
-import projectvp.layout.OrderItemPanel;
-
 /**
  *
  * @author user
  */
-public interface AddItemOrderListener {
-    
-    public void cancelToOrder();
-    public void saveOrder(Object[] newOrder);
+public interface EditOrderItemListener {
+    public void saveOrderEdit(Object[] newOrder,int selectedRow);
+    public void cancelToOrderEdit();
 }
