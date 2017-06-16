@@ -17,6 +17,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
+import projectvp.listener.ManageAdminListener;
 import projectvp.model.AdminTableModel;
 import projectvp.model.ItemTableModel;
 
@@ -32,6 +33,7 @@ public class ManageAdminPanel extends JPanel implements TableModelListener, List
     private JComboBox filter;
     private JTable itemTable;
     private JScrollPane tablePane;
+    private ManageAdminListener listener;
     private int selectedIndex;
 
     public ManageAdminPanel() {
@@ -39,9 +41,14 @@ public class ManageAdminPanel extends JPanel implements TableModelListener, List
         buildGui();
         registerListener();
     }
-
+    
+    public void addListener(ManageAdminListener listener)
+    {
+        this.listener=listener;
+    }
+    
     private void buildGui() {
-       this.setPreferredSize(new Dimension(500,450));
+        this.setPreferredSize(new Dimension(500,450));
         
         String column = "20px, 175px, 10px, pref, 15px, 95px, 15px, 95px";
         String row = "50px, pref, 25px, pref, 20px, pref, 20px, pref, 250px";
@@ -108,7 +115,7 @@ public class ManageAdminPanel extends JPanel implements TableModelListener, List
     public void actionPerformed(ActionEvent e) {
         if(e.getSource().equals(addButton))
         {
-//            listener.moveToAddItem();
+            listener.moveToAddUser();
         }
         if(e.getSource().equals(editButton))
         {

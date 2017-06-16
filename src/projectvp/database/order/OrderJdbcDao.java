@@ -5,7 +5,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Vector;
-import projectvp.database.Order.Order;
+import projectvp.database.order.Order;
 import projectvp.database.ConnectionManager;
 
 /*
