@@ -67,7 +67,7 @@ public class BrandJdbcDao {
         return result;
     }
     
-    public boolean insertSupplier(Brand newBrand)
+    public boolean insertBrand(Brand newBrand)
     {
         int berhasil=0;
         String query = "INSERT INTO `merek`(`name`) values (?)"; 

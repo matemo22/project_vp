@@ -6,6 +6,7 @@
 package projectvp.database.Brand;
 
 import java.util.Vector;
+import projectvp.database.supplier.Supplier;
 
 /**
  *
@@ -17,5 +18,9 @@ public class BrandService {
     public Vector<Brand> getBrands()
     {
         return dao.readAllBrands();
+    }
+    public boolean addNewBrand(Brand newBrand)
+    {
+        return dao.insertBrand(newBrand);
     }
 }
