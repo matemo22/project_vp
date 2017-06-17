@@ -18,12 +18,12 @@ import projectvp.layout.AddItemOrderPanel;
  * @author user
  */
 public class OrderItemModel extends AbstractTableModel {
-     private Vector<AddItemOrderPanel> data;
-     private Vector<Order> dataOrder;
+    private Vector<AddItemOrderPanel> data;
+    private Vector<Order> dataOrder;
     private String[] columnNames = {"Nama", "Produk", "Jenis","Supplier", "Quantity"};
     private Class<?>[] columnClasses = {String.class, String.class, String.class, String.class, Integer.class};
     private Vector<Object[]> rows;
-   private OrderService os;
+    private OrderService os;
     
     public OrderItemModel()
     {
@@ -41,7 +41,12 @@ public class OrderItemModel extends AbstractTableModel {
             rows.add(arow);
         }
     }
-   
+    public void hapusAll()
+    {
+        for (int i = getRowCount(); i > 0; i--) {
+            hapus(i-1);
+        }
+    }
   
     public void hapus(int row)
     {

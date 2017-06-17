@@ -16,7 +16,5 @@ import projectvp.database.order.Order;
 public interface OrderItemListener {
     public void moveToAddItemOrder(Object a, Object b);
     public void finishOrder(Vector<Order> newOrder);
-    public void deleteOrder();
-    public void clearAll();
     public void moveToEditItemOrder(int row,TableModel a);
 }

@@ -458,23 +458,9 @@ implements LoginListener, ActionListener, KeyListener, MasterListener, ManageIte
         this.setVisible(true);
         OrderModel om = new OrderModel();
         for (int i = 0; i <orders.size() ; i++) {
-        boolean hasil = om.addNewOrder(orders.elementAt(i));
+            boolean hasil = om.addNewOrder(orders.elementAt(i));
         }
        
-    }
-
-    @Override
-    public void deleteOrder() {
-        OrderItemPanel orderItemPanel =(OrderItemPanel) historyPanel.lastElement();
-        this.setVisible(false);
-        this.setContentPane(orderItemPanel);
-        this.pack();
-        this.setVisible(true);
-    }
-
-    @Override
-    public void clearAll() {
-        
     }
     
      //addorderitem

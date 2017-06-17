@@ -108,7 +108,6 @@ public class OrderItemPanel extends JPanel implements ActionListener, TableModel
         editOrder = new JButton("Edit");
         editOrder.setEnabled(false);
         clearAll = new JButton("Clear All");
-        clearAll.setEnabled(false);
         finishOrder = new JButton("Order!");
         finishOrder.setEnabled(false);
 
@@ -165,13 +164,23 @@ public class OrderItemPanel extends JPanel implements ActionListener, TableModel
         if (e.getSource().equals(deleteOrder)) {
            OrderItemModel oim= (OrderItemModel) orderTable.getModel();
            oim.hapus(orderTable.getSelectedRow());
-
+           if(oim.getRowCount()==0)
+           {
+               editOrder.setEnabled(false);
+               deleteOrder.setEnabled(false);
+           }
         }
-         if(e.getSource().equals(editOrder)){
-            orderItemListener.moveToEditItemOrder(selectedRow, (OrderItemModel)orderTable.getModel());     
-                 
-             
-         }
+        if(e.getSource().equals(editOrder)){
+           orderItemListener.moveToEditItemOrder(selectedRow, (OrderItemModel)orderTable.getModel());
+        }
+        
+        if(e.getSource().equals(clearAll))
+        {
+            OrderItemModel oim= (OrderItemModel) orderTable.getModel();
+            oim.hapusAll();
+            editOrder.setEnabled(false);
+            deleteOrder.setEnabled(false);
+        }
          if(e.getSource().equals(finishOrder)){
             Vector<Order> orders= new Vector<Order>();
             for (int i = 0; i < orderTable.getRowCount(); i++) 
@@ -221,12 +230,9 @@ public class OrderItemPanel extends JPanel implements ActionListener, TableModel
 
     @Override
     public void valueChanged(ListSelectionEvent e) {
-         
-        if (orderTable.getSelectedRow() > -1) {
+        if (e.getSource().equals(orderTable.getSelectionModel())) {
             deleteOrder.setEnabled(true);
             editOrder.setEnabled(true);
-        }
-        if (e.getSource().equals(orderTable.getSelectionModel())) {
             selectedRow=orderTable.getSelectedRow();
         }
       
