@@ -13,6 +13,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import projectvp.listener.AddItemOrderListener;
@@ -21,7 +23,7 @@ import projectvp.listener.AddItemOrderListener;
  *
  * @author user
  */
-public class AddItemOrderPanel extends JPanel implements ActionListener, ItemListener {
+public class AddItemOrderPanel extends JPanel implements ActionListener, ItemListener, KeyListener {
 
     private JLabel titleLabel;
     private JTextField detailNamePanel, detailQuantityField;
@@ -110,7 +112,7 @@ public class AddItemOrderPanel extends JPanel implements ActionListener, ItemLis
         productBox.addItemListener(this);
         saveButton.addActionListener(this);
         cancelButton.addActionListener(this);
-
+        detailQuantityField.addKeyListener(this);
     }
 
     @Override
@@ -183,4 +185,23 @@ public class AddItemOrderPanel extends JPanel implements ActionListener, ItemLis
         return itemTypeModel;
     }
 
+    @Override
+    public void keyTyped(KeyEvent e) {
+        if(e.getSource().equals(detailQuantityField))
+        {
+            if(e.getKeyChar() < '0' || e.getKeyChar() > '9'){
+                e.consume();
+            }
+        }
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+        
+    }
 }

@@ -114,7 +114,7 @@ public class OrderItemModel extends AbstractTableModel {
     {
         return false;
     }
-     public Order getorder(String name)
+    public Order getorder(String name)
     {
         for (Order a : dataOrder)
         {
