@@ -126,7 +126,7 @@ public class ManageSupplierPanel extends JPanel implements TableModelListener, L
         }
         if(e.getSource().equals(editSupButton))
         {
-        Supplier prevSupplier = getTableModel().getSupplier((String) getTableModel().getValueAt(selectedIndex, 0));
+            Supplier prevSupplier = getTableModel().getSupplier((String) getTableModel().getValueAt(selectedIndex, 0), (String) getTableModel().getValueAt(selectedIndex, 1));
             supplierListener.moveToEditSupplier(selectedIndex, prevSupplier);
         }
         if(e.getSource().equals(goButton))

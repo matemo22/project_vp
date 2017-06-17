@@ -88,6 +88,25 @@ public class SupplierJdbcDao {
         else return false;
     }
      
+    public boolean updateSupplier(Supplier newSupplier, Brand newBrand, Supplier prevSupplier)
+    {
+        int berhasil = 0;
+        String query = "UPDATE `supplier` SET `id_merek`=?,`location`=? WHERE `id`=?";
+        PreparedStatement pstmt = null;
+        try {
+            pstmt = conn.prepareStatement(query);
+            pstmt.setInt(1, newBrand.getId());
+            pstmt.setString(2, newSupplier.getLocation());
+            pstmt.setInt(3, prevSupplier.getId());
+            berhasil = pstmt.executeUpdate();
+            conn.commit();
+        } catch (SQLException ex) {
+//            Logger.getLogger(UserJdbcDao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        if(berhasil > 0) return true;
+        else return false;
+    }
+     
     private Brand getNameBrand(ResultSet rs) throws SQLException
     {
         BrandService bs = new BrandService();

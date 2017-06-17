@@ -5,11 +5,14 @@
  */
 package projectvp.listener;
 
+import projectvp.database.Brand.Brand;
+import projectvp.database.supplier.Supplier;
+
 /**
  *
  * @author user
  */
 public interface EditSupplierListener {
     public void cancelFromEditSuppiler();
-    public void saveEdit();
+    public void saveEdit(Supplier newSupplier, Brand newBrand, boolean isNew, int selectedIndex, Supplier prevSupplier);
 }

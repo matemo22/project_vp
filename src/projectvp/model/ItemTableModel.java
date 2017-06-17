@@ -140,6 +140,7 @@ public class ItemTableModel extends AbstractTableModel{
     
     public Barang getBarang(String name)
     {
+        data = bs.getBarang();
         for (Barang a : data)
         {
             if(a.getName().equals(name))

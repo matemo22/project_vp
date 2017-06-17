@@ -21,8 +21,14 @@ public class SupplierService {
     {
         return dao.readAllSuppliers();
     }
-      public boolean addNewSupplier(Supplier newSupplier,Brand brand)
+     
+    public boolean addNewSupplier(Supplier newSupplier,Brand brand)
     {
         return dao.insertSupplier(newSupplier,brand);
+    }
+    
+    public boolean updateSupplier(Supplier newSupplier, Brand newBrand, Supplier prevSupplier)
+    {
+        return dao.updateSupplier(newSupplier, newBrand, prevSupplier);
     }
 }

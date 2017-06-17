@@ -79,14 +79,12 @@ public class EditSupplierPanel extends JPanel implements ActionListener, ItemLis
         this.add(manfactureListComboBox, c.xy(4, 4));
         this.add(manufactureNotListedCheckBox, c.xy(2, 6));
         this.add(newManufactureField, c.xy(4, 6));
-        newManufactureField.disable();
         
         this.add(new JLabel("New Location"), c.xy(2, 8));
         this.add(locationListComboBox, c.xy(4, 8));
         this.add(locationNotListedCheckBox, c.xy(2, 10));
         this.add(newLocationField, c.xy(4, 10));
-        newLocationField.disable();
-
+        
         this.add(saveButton, c.xy(2, 14));
         this.add(cancelButton, c.xy(4, 14));
     }
@@ -101,7 +99,7 @@ public class EditSupplierPanel extends JPanel implements ActionListener, ItemLis
         locationListComboBox = new JComboBox(locationModel);
         manfactureListComboBox = new JComboBox(manufatureModel);
         manufatureModel.addElement("--Choose--");
-        int i=1, j=1;
+        int i=1;
         for(Brand a : brands)
         {
             manufatureModel.addElement(a.getName());
@@ -110,14 +108,10 @@ public class EditSupplierPanel extends JPanel implements ActionListener, ItemLis
                 manfactureListComboBox.setSelectedIndex(i);
                 manfactureListComboBox.setEnabled(true);
                 locationModel.removeAllElements();
-                locationModel.addElement("--Choose--");
-                for (Supplier b : suppliers)
-                {
-                        locationModel.addElement(b.getLocation());
-                        if(prevSupplier.getLocation().equals(b.getLocation()))
-                            locationListComboBox.setSelectedIndex(j);
-                        j++;
-                    
+                for (int j = 0; j < location.length; j++) {
+                    locationModel.addElement(location[j]);
+                    if(prevSupplier.getLocation().equals(location[j]))
+                        locationListComboBox.setSelectedIndex(j);
                 }
             }
             i++;
@@ -127,27 +121,78 @@ public class EditSupplierPanel extends JPanel implements ActionListener, ItemLis
         manufactureNotListedCheckBox = new JCheckBox("Not Listed");
         newLocationField = new JTextField();
         newManufactureField = new JTextField();
-
+        newManufactureField.setEnabled(false);
+        newLocationField.setEnabled(false);
     }
     
     public void registerListener()
     {
+        locationListComboBox.addActionListener(this);
+        locationNotListedCheckBox.addActionListener(this);
+        manfactureListComboBox.addActionListener(this);
+        manufactureNotListedCheckBox.addActionListener(this);
         saveButton.addActionListener(this);
         cancelButton.addActionListener(this);
     }
     
 
     @Override
-    public void actionPerformed(ActionEvent e) {
-    if(e.getSource().equals(cancelButton))
-          {
-              listener.cancelFromEditSuppiler();
-          }
-          if(e.getSource().equals(saveButton))
-          {
-             
-          }
-      }    
+    public void actionPerformed(ActionEvent e)
+    {
+        if(e.getSource().equals(cancelButton))
+        {
+            listener.cancelFromEditSuppiler();
+        }
+        if(e.getSource().equals(saveButton))
+        {
+            Supplier newSupplier = new Supplier();
+            Brand newBrand=new Brand();
+            boolean isNew = false;
+            if(manufactureNotListedCheckBox.isSelected())
+            {
+                newBrand.setName(newManufactureField.getText());
+                isNew = true;
+            }
+            else
+            {
+                for(Brand a : brands)
+                {
+                    if(a.getName().equals(manfactureListComboBox.getSelectedItem()))
+                    {
+                        newBrand=a;
+                        break;
+                    }
+                }
+            }
+            
+            if (locationNotListedCheckBox.isSelected()) {
+                newSupplier.setLocation(newLocationField.getText());
+            }
+            else{
+                newSupplier.setLocation(locationListComboBox.getSelectedItem().toString());
+            }
+            
+            listener.saveEdit(newSupplier, newBrand, isNew, selectedIndex, prevSupplier);
+        }
+        if(manufactureNotListedCheckBox.isSelected())
+        {
+            manfactureListComboBox.setEnabled(false);
+            newManufactureField.setEnabled(true);
+        }
+        else{
+            manfactureListComboBox.setEnabled(true);
+            newManufactureField.setEnabled(false);
+        }
+        if(locationNotListedCheckBox.isSelected())
+        {
+            locationListComboBox.setEnabled(false);
+            newLocationField.setEnabled(true);
+        }
+        else{
+            locationListComboBox.setEnabled(true);
+            newLocationField.setEnabled(false);
+        }
+    }    
 
     @Override
     public void itemStateChanged(ItemEvent e) {

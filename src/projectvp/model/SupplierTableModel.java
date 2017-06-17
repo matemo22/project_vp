@@ -122,11 +122,12 @@ public class SupplierTableModel extends AbstractTableModel{
         return false;
     }
     
-     public Supplier getSupplier(String supplier)
+     public Supplier getSupplier(String supplier, String location)
     {
+        data = ss.getSupplier();
         for (Supplier a : data)
         {
-            if(a.getMerek().getName().equals(supplier))
+            if(a.getMerek().getName().equals(supplier) && a.getLocation().equals(location))
                 return a;
         }
         return null;

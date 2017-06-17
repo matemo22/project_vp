@@ -131,6 +131,7 @@ public class AdminTableModel extends AbstractTableModel{
     
     public User getUser(String name)
     {
+        data = us.getUsers();
         for (User a : data)
         {
             if(a.getUsername().equals(name))

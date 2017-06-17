@@ -610,7 +610,33 @@ implements LoginListener, ActionListener, KeyListener, MasterListener, ManageIte
     }
 
     @Override
-    public void saveEdit() {
+    public void saveEdit(Supplier newSupplier, Brand newBrand, boolean isNew, int selectedIndex, Supplier prevSupplier) 
+    {
+        historyPanel.removeElement(historyPanel.lastElement());
+        ManageSupplierPanel manageSupplierPanel = new ManageSupplierPanel();
+        manageSupplierPanel.addListener(this);
+        SupplierTableModel tableModel = manageSupplierPanel.getTableModel();
+        Object[] temp={ newBrand.getName(), newSupplier.getLocation()};
+        tableModel.editRow(temp, selectedIndex);
+        this.setVisible(false);
+        this.setContentPane(manageSupplierPanel);
+        this.pack();
+        this.setVisible(true);
+        SupplierModel sm = new SupplierModel();
+        boolean hasil1;
+        if(true)
+        {
+            hasil1 = sm.addNewBrand(newBrand);
+            Vector<Brand> brands = new BrandService().getBrands();
+            for (Brand a : brands) {
+                if(newBrand.getName().equals(a.getName()))
+                {
+                    newBrand.setId(a.getId());
+                    break;
+                }
+            }
+        }
+        boolean hasil2 = sm.editSupplier(newSupplier,newBrand, prevSupplier);
     }
     
     

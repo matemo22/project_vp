@@ -28,8 +28,8 @@ public class SupplierModel {
         return bs.addNewBrand(newBrand);
     }
     
-    public boolean editSupplier(Supplier editSupplier, Supplier prev)
+    public boolean editSupplier(Supplier editSupplier, Brand newBrand, Supplier prevSupplier)
     {
-        return ss.updateSupplier(editSupplier, prev);
+        return ss.updateSupplier(editSupplier, newBrand, prevSupplier);
     }
 }
