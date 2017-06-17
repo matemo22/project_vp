@@ -6,6 +6,7 @@
 package projectvp.database.supplier;
 
 import java.util.Vector;
+import projectvp.database.Brand.Brand;
 import projectvp.database.order.Order;
 
 /**
@@ -14,13 +15,14 @@ import projectvp.database.order.Order;
  */
 public class SupplierService {
     private SupplierJdbcDao dao = new SupplierJdbcDao();
+   
     
     public Vector<Supplier> getSupplier()
     {
         return dao.readAllSuppliers();
     }
-      public boolean addNewSupplier(Order newOrder)
+      public boolean addNewSupplier(Supplier newSupplier,Brand brand)
     {
-        return dao.insertSupplier(newOrder);
+        return dao.insertSupplier(newSupplier,brand);
     }
 }

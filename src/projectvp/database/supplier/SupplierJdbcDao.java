@@ -70,14 +70,14 @@ public class SupplierJdbcDao {
         
         return result;
     }
-     public boolean insertSupplier(Supplier newSupplier)
+     public boolean insertSupplier(Supplier newSupplier,Brand brand)
     {
         int berhasil=0;
         String query = "INSERT INTO `supplier`(`id_merek`, `location`) values (?,?)"; 
         PreparedStatement pstmt = null;
         try {
             pstmt = conn.prepareStatement(query);
-            pstmt.setInt(1, newSupplier.getMerek().getId());
+            pstmt.setInt(1, brand.getId());
             pstmt.setString(2, newSupplier.getLocation());
             berhasil = pstmt.executeUpdate();
             conn.commit();

@@ -6,6 +6,7 @@
 package projectvp.model;
 
 import projectvp.database.Brand.Brand;
+import projectvp.database.Brand.BrandService;
 import projectvp.database.supplier.Supplier;
 import projectvp.database.supplier.SupplierService;
 
@@ -15,15 +16,16 @@ import projectvp.database.supplier.SupplierService;
  */
 public class SupplierModel {
       SupplierService ss = new SupplierService();
+      BrandService bs= new BrandService();
     
-    public boolean addNewSupplier(Supplier newSuplier)
+    public boolean addNewSupplier(Supplier newSuplier,Brand brand)
     {
-        return ss.addNewSupplier(newSuplier);
+        return ss.addNewSupplier(newSuplier,brand);
     }
    
     public boolean addNewBrand(Brand newBrand)
     {
-        return ss.addNewBrand(newBrand);
+        return bs.addNewBrand(newBrand);
     }
     
     public boolean editSupplier(Supplier newBarang, Barang prev)

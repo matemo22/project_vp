@@ -563,7 +563,8 @@ implements LoginListener, ActionListener, KeyListener, MasterListener, ManageIte
     }
     @Override
     public void saveSupplier(Supplier supplier, Brand brand) {
-        ManageAdminPanel manageSupplierPanel = new ManageAdminPanel();
+        historyPanel.removeElement(historyPanel.lastElement());
+        ManageSupplierPanel manageSupplierPanel = new ManageSupplierPanel();
         manageSupplierPanel.addListener(this);
         this.setVisible(false);
         this.setContentPane(manageSupplierPanel);
@@ -571,12 +572,13 @@ implements LoginListener, ActionListener, KeyListener, MasterListener, ManageIte
         this.setVisible(true);
         historyPanel.add(manageSupplierPanel);
         SupplierModel sm = new SupplierModel();
-        boolean hasil1 = sm.addNewSupplier(supplier);
-        boolean hasil2 = sm.addNewBrand(brand);
+        boolean hasil1 = sm.addNewBrand(brand);
+        boolean hasil2 = sm.addNewSupplier(supplier,brand);
         
     }
      @Override
     public void cancelToManageSupplier() {
+        historyPanel.removeElement(historyPanel.lastElement());
         ManageSupplierPanel manageSupplierPanel = new ManageSupplierPanel();
         manageSupplierPanel.addListener(this);
         this.setVisible(false);
