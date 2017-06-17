@@ -6,8 +6,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Vector;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import projectvp.database.order.Order;
 import projectvp.database.ConnectionManager;
 import projectvp.database.barang.Barang;

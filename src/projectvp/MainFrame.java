@@ -17,6 +17,7 @@ import javax.swing.table.TableModel;
 import projectvp.database.barang.Barang;
 import projectvp.database.order.Order;
 import projectvp.database.user.User;
+import projectvp.layout.AddAdminPanel;
 import projectvp.layout.AddItemOrderPanel;
 import projectvp.layout.AddItemPanel;
 import projectvp.layout.EditItemPanel;
@@ -31,10 +32,12 @@ import projectvp.listener.AddItemOrderListener;
 import projectvp.listener.EditOrderItemListener;
 import projectvp.listener.ItemsListener;
 import projectvp.listener.LoginListener;
+import projectvp.listener.ManageAdminListener;
 import projectvp.listener.ManageItemListener;
 import projectvp.listener.ManageSupplierListener;
 import projectvp.listener.MasterListener;
 import projectvp.listener.OrderItemListener;
+import projectvp.model.AdminTableModel;
 import projectvp.model.BarangModel;
 import projectvp.model.LoginModel;
 import projectvp.model.OrderItemModel;
@@ -46,7 +49,8 @@ import projectvp.model.OrderModel;
  */
 public class MainFrame extends JFrame
 implements LoginListener, ActionListener, KeyListener, MasterListener, ManageItemListener,
-        ItemsListener, OrderItemListener, EditOrderItemListener,ManageSupplierListener, AddItemOrderListener
+        ItemsListener, OrderItemListener, EditOrderItemListener,ManageSupplierListener,
+        AddItemOrderListener, ManageAdminListener
     {
     private Vector<JPanel> historyPanel=new Vector<JPanel>();
     private JMenuBar menuBar, loginMenuBar;
@@ -212,6 +216,7 @@ implements LoginListener, ActionListener, KeyListener, MasterListener, ManageIte
                 historyPanel.removeElementAt(1);
             }
             ManageAdminPanel manageAdminPanel = new ManageAdminPanel();
+            manageAdminPanel.addListener(this);
             this.setVisible(false);
             this.setContentPane(manageAdminPanel);
             this.pack();
@@ -277,6 +282,7 @@ implements LoginListener, ActionListener, KeyListener, MasterListener, ManageIte
     public void moveToManageAdmin()
     {
         ManageAdminPanel manageAdminPanel = new ManageAdminPanel();
+        manageAdminPanel.addListener(this);
         this.setVisible(false);
         this.setContentPane(manageAdminPanel);
         this.pack();
@@ -503,5 +509,26 @@ implements LoginListener, ActionListener, KeyListener, MasterListener, ManageIte
 
     @Override
     public void moveToEditSupplier() {
+    }
+
+    @Override
+    public void moveToAddUser() {
+        AddAdminPanel addAdminPanel = new AddAdminPanel();
+//        addAdminPanel.addListener(this);
+        this.setVisible(false);
+        this.setContentPane(addAdminPanel);
+        this.pack();
+        this.setVisible(true);
+        historyPanel.add(addAdminPanel);
+    }
+
+    @Override
+    public void moveToEditUser(int selectedRow, TableModel table, User prevUser) {
+        
+    }
+
+    @Override
+    public AdminTableModel searchUser(AdminTableModel itm, String keyword) {
+        return null;
     }
 }

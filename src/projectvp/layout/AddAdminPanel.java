@@ -19,6 +19,7 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 import projectvp.database.user.User;
+import projectvp.listener.AddAdminListener;
 import projectvp.listener.LoginListener;
 
 /**
@@ -31,11 +32,17 @@ public class AddAdminPanel extends JPanel
     private JTextField adminNameField;
     private JPasswordField adminPasswordField;
     private JButton saveButton, cancelButton;
+    private AddAdminListener listener;
     
     public AddAdminPanel()
     {
         initComponent();
         buildGui();
+    }
+    
+    public void addListener(AddAdminListener listener)
+    {
+        this.listener=listener;
     }
     
     private void buildGui()
