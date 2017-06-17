@@ -16,7 +16,7 @@ import projectvp.database.barang.*;
  */
 public class ItemTableModel extends AbstractTableModel{
     private Vector<Barang> data;
-    private String[] columnNames = {"Nama", "Jenis", "Produk","Brand", "Harga", "Quantity", "Gudang"};
+    private String[] columnNames = {"Nama", "Produk", "Jenis","Brand", "Harga", "Quantity", "Gudang"};
     private BarangService bs;
     private Vector<Object[]> rows;
     
@@ -50,8 +50,8 @@ public class ItemTableModel extends AbstractTableModel{
     {
         Object[] editRow = new Object[7];
         editRow[0]=newBarang.getName();
-        editRow[1]=newBarang.getJenis();
-        editRow[2]=newBarang.getProduct();
+        editRow[1]=newBarang.getProduct();
+        editRow[2]=newBarang.getJenis();
         editRow[3]=newBarang.getSupplier().getMerek().getName()+" "+newBarang.getSupplier().getLocation();
         editRow[4]=newBarang.getHarga();
         editRow[5]=newBarang.getQty();
@@ -67,13 +67,18 @@ public class ItemTableModel extends AbstractTableModel{
         rows.removeAllElements();
         for (Barang a : data)
         {
-            if(a.getName().toLowerCase().contains(keyword.toLowerCase()))
+            if(a.getName().toLowerCase().contains(keyword.toLowerCase())
+                || a.getProduct().toLowerCase().contains(keyword.toLowerCase())
+                || a.getJenis().toLowerCase().contains(keyword.toLowerCase())
+                || a.getSupplier().getMerek().getName().toLowerCase().contains(keyword.toLowerCase())
+                || a.getSupplier().getLocation().toLowerCase().contains(keyword.toLowerCase())
+                || (a.getSupplier().getMerek().getName()+" "+a.getSupplier().getLocation()).toLowerCase().contains(keyword.toLowerCase()))
             {
                 //Masukkan isian ke table
                 Object[] arow = new Object[7];
                 arow[0]=a.getName();
-                arow[1]=a.getJenis();
-                arow[2]=a.getProduct();
+                arow[1]=a.getProduct();
+                arow[2]=a.getJenis();
                 arow[3]=a.getSupplier().getMerek().getName()+" "+a.getSupplier().getLocation();
                 arow[4]=a.getHarga();
                 arow[5]=a.getQty();

@@ -369,7 +369,8 @@ implements LoginListener, ActionListener, KeyListener, MasterListener, ManageIte
     @Override
     public void saveItem(Barang newBarang) {
         historyPanel.removeElement(historyPanel.lastElement());
-        ManageItemPanel panel = (ManageItemPanel) historyPanel.lastElement();
+        ManageItemPanel panel = new ManageItemPanel();
+        panel.addListener(this);
         ItemTableModel itm = panel.getTableModel();
         Object[] temp = {newBarang.getName(), newBarang.getJenis(), newBarang.getProduct(), newBarang.getSupplier().getMerek().getName()+" "+newBarang.getSupplier().getLocation(), newBarang.getHarga(), newBarang.getQty(), newBarang.getGudang()};
         itm.addRow(temp);
@@ -385,7 +386,8 @@ implements LoginListener, ActionListener, KeyListener, MasterListener, ManageIte
     @Override
     public void cancel() {
         historyPanel.removeElement(historyPanel.lastElement());
-        ManageItemPanel panel = (ManageItemPanel) historyPanel.lastElement();
+        ManageItemPanel panel = new ManageItemPanel();
+        panel.addListener(this);
         this.setVisible(false);
         this.setContentPane(panel);
         this.pack();
@@ -396,7 +398,8 @@ implements LoginListener, ActionListener, KeyListener, MasterListener, ManageIte
     @Override
     public void editItem(Barang newBarang, Barang prevBarang, int selectedIndex) {
         historyPanel.removeElement(historyPanel.lastElement());
-        ManageItemPanel panel = (ManageItemPanel) historyPanel.lastElement();
+        ManageItemPanel panel = new ManageItemPanel();
+        panel.addListener(this);
         ItemTableModel itm = panel.getTableModel();
         itm.editRow(newBarang, selectedIndex);
         BarangModel aim = new BarangModel();
@@ -469,7 +472,8 @@ implements LoginListener, ActionListener, KeyListener, MasterListener, ManageIte
     @Override
     public void cancelToOrder() {
         historyPanel.removeElement(historyPanel.lastElement());
-        OrderItemPanel panel = (OrderItemPanel) historyPanel.lastElement();
+        OrderItemPanel panel = new OrderItemPanel(currentUser);
+        panel.addListener(this);
         this.setVisible(false);
         this.setContentPane(panel);
         this.pack();
@@ -480,14 +484,9 @@ implements LoginListener, ActionListener, KeyListener, MasterListener, ManageIte
     @Override
     public void saveOrder(Object[] newOrder) {
         historyPanel.removeElement(historyPanel.lastElement());
-        OrderItemPanel panel = (OrderItemPanel) historyPanel.lastElement();
+        OrderItemPanel panel = new OrderItemPanel(currentUser);
+        panel.addListener(this);
         OrderItemModel itm = panel.getOrderTable();
-
-//        newOrder[0] = a.getDetailNamePanel().getText();
-//        newOrder[1] = a.getProductBox().getSelectedItem();
-//        newOrder[2] = a.getProductModel().getSelectedItem();
-//        newOrder[3] = "aaa";
-//        newOrder[4] = a.getDetailQuantityField().getText();
         itm.addRow(newOrder);
         this.setVisible(false);
         this.setContentPane(panel);
@@ -501,7 +500,8 @@ implements LoginListener, ActionListener, KeyListener, MasterListener, ManageIte
     public void cancelToOrderEdit()
     {
         historyPanel.removeElement(historyPanel.lastElement());
-        OrderItemPanel panel = (OrderItemPanel) historyPanel.lastElement();
+        OrderItemPanel panel = new OrderItemPanel(currentUser);
+        panel.addListener(this);
         this.setVisible(false);
         this.setContentPane(panel);
         this.pack();
@@ -512,14 +512,9 @@ implements LoginListener, ActionListener, KeyListener, MasterListener, ManageIte
     @Override
     public void saveOrderEdit(Object[] newOrder, int selectedRow) {
         historyPanel.removeElement(historyPanel.lastElement());
-        OrderItemPanel panel = (OrderItemPanel) historyPanel.lastElement();
+        OrderItemPanel panel = new OrderItemPanel(currentUser);
+        panel.addListener(this);
         OrderItemModel itm = panel.getOrderTable();
-
-//        newOrder[0] = a.getDetailNamePanel().getText();
-//        newOrder[1] = a.getProductBox().getSelectedItem();
-//        newOrder[2] = a.getProductModel().getSelectedItem();
-//        newOrder[3] = "aaa";
-//        newOrder[4] = a.getDetailQuantityField().getText();
         itm.editRow(newOrder,selectedRow);
         this.setVisible(false);
         this.setContentPane(panel);
@@ -560,14 +555,18 @@ implements LoginListener, ActionListener, KeyListener, MasterListener, ManageIte
     }
 
     @Override
-    public AdminTableModel searchUser(AdminTableModel itm, String keyword) {
-        return null;
+    public AdminTableModel searchUser(AdminTableModel atm, String keyword) {
+        if(keyword.length()>0)
+            atm.filterTable(keyword);
+        else atm = new AdminTableModel();
+        return atm;
     }
 
     @Override
     public void saveUser(User newUser) {
         historyPanel.removeElement(historyPanel.lastElement());
-        ManageAdminPanel panel = (ManageAdminPanel) historyPanel.lastElement();
+        ManageAdminPanel panel = new ManageAdminPanel();
+        panel.addListener(this);
         AdminTableModel atm = panel.getTableModel();
         Object[] temp = {newUser.getUsername(), newUser.getPassword(), "Active"};
         atm.addRow(temp);
@@ -583,7 +582,8 @@ implements LoginListener, ActionListener, KeyListener, MasterListener, ManageIte
     @Override
     public void cancelAdmin() {
         historyPanel.removeElement(historyPanel.lastElement());
-        ManageAdminPanel panel = (ManageAdminPanel) historyPanel.lastElement();
+        ManageAdminPanel panel = new ManageAdminPanel();
+        panel.addListener(this);
         this.setVisible(false);
         this.setContentPane(panel);
         this.pack();
@@ -594,7 +594,8 @@ implements LoginListener, ActionListener, KeyListener, MasterListener, ManageIte
     @Override
     public void editUser(User newUser, User prevUser, int selectedIndex) {
         historyPanel.removeElement(historyPanel.lastElement());
-        ManageAdminPanel panel = (ManageAdminPanel) historyPanel.lastElement();
+        ManageAdminPanel panel = new ManageAdminPanel();
+        panel.addListener(this);
         AdminTableModel aim = panel.getTableModel();
         aim.editRow(newUser, selectedIndex);
         UserModel um = new UserModel();
