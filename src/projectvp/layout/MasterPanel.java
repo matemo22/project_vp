@@ -95,7 +95,7 @@ public class MasterPanel extends JPanel implements ActionListener, MouseListener
             listener.moveToManageSupplier();
         }
          if (e.getSource().equals(orderItem)) {
-            listener.moveToOrderItem();
+            listener.moveToOrderItem(currentUser);
         }
     }
 

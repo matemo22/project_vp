@@ -11,6 +11,7 @@ import projectvp.database.ConnectionManager;
 import projectvp.database.barang.Barang;
 import projectvp.database.supplier.Supplier;
 import projectvp.database.supplier.SupplierService;
+import projectvp.database.user.User;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -52,6 +53,8 @@ public class OrderJdbcDao {
                 order.setNamaBarang(rs.getString("namaBarang"));
                 order.setQty(rs.getInt("quantity"));
                 order.setDate(rs.getDate("tglPesan"));
+                User CurrentUser= new User();
+                order.setUser(CurrentUser);
                 result.add(order);
             }
         }
@@ -79,7 +82,7 @@ public class OrderJdbcDao {
      public boolean insertOrder(Order newOrder)
     {
         int berhasil=0;
-        String query = "INSERT INTO `order`(`supplier`, `produkName`, `produkType`, `namaBarang`, `quantity`, `tglPesan`) values (?,?,?,?,?,?)"; 
+        String query = "INSERT INTO `order`(`supplier`, `produkName`, `produkType`, `namaBarang`, `quantity`, `tglPesan`,`user`) values (?,?,?,?,?,?,?)"; 
         PreparedStatement pstmt = null;
         try {
             pstmt = conn.prepareStatement(query);
@@ -89,6 +92,11 @@ public class OrderJdbcDao {
             pstmt.setString(4, newOrder.getNamaBarang());
             pstmt.setInt(5, newOrder.getQty());
             pstmt.setDate(6, newOrder.getDate());
+            pstmt.setInt(7, newOrder.getUser().getId());
+            System.out.println("user id"+newOrder.getUser().getId());
+            System.out.println("user id"+newOrder.getUser().getUsername());
+            System.out.println("user id"+newOrder.getUser().getAuthority());
+            System.out.println("222");
             berhasil = pstmt.executeUpdate();
             conn.commit();
         } catch (SQLException ex) {

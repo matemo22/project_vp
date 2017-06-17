@@ -2,6 +2,7 @@ package projectvp.database.order;
 
 import java.sql.Date;
 import projectvp.database.supplier.Supplier;
+import projectvp.database.user.User;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -18,6 +19,15 @@ public class Order {
     private int id,qty;
     private Date date;
     private Supplier supplier;
+    private User user;
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 
     public Date getDate() {
         return date;

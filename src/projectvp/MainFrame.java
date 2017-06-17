@@ -242,7 +242,7 @@ implements LoginListener, ActionListener, KeyListener, MasterListener, ManageIte
             {
                 historyPanel.removeElementAt(1);
             }
-            OrderItemPanel orderItemPanel = new OrderItemPanel();
+            OrderItemPanel orderItemPanel = new OrderItemPanel(currentUser);
             this.setVisible(false);
             this.setContentPane(orderItemPanel);
             this.pack();
@@ -302,8 +302,9 @@ implements LoginListener, ActionListener, KeyListener, MasterListener, ManageIte
     }
     
     @Override
-    public void moveToOrderItem() {
-        OrderItemPanel orderItemPanel = new OrderItemPanel();
+    public void moveToOrderItem(User user) {
+        currentUser=user;
+        OrderItemPanel orderItemPanel = new OrderItemPanel(currentUser);
         orderItemPanel.addListener(this);
         this.setVisible(false);
         this.setContentPane(orderItemPanel);
@@ -425,7 +426,7 @@ implements LoginListener, ActionListener, KeyListener, MasterListener, ManageIte
 
     @Override
     public void deleteOrder() {
-        OrderItemPanel orderItemPanel = new OrderItemPanel();
+        OrderItemPanel orderItemPanel = new OrderItemPanel(currentUser);
         orderItemPanel.addListener(this);
         this.setVisible(false);
         this.setContentPane(orderItemPanel);
