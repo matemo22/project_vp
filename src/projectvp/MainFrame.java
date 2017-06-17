@@ -24,6 +24,7 @@ import projectvp.layout.AddAdminPanel;
 import projectvp.layout.AddItemOrderPanel;
 import projectvp.layout.AddItemPanel;
 import projectvp.layout.AddSupplierPanel;
+import projectvp.layout.AdminPanel;
 import projectvp.layout.EditAdminPanel;
 import projectvp.layout.EditItemPanel;
 import projectvp.layout.EditOrderItemPanel;
@@ -167,11 +168,28 @@ implements LoginListener, ActionListener, KeyListener, MasterListener, ManageIte
                 menu.add(orderItem);
                 menu.add(historyOrder);
                 menu.addSeparator();
-    //            option.add(profile);
                 menu.add(option);
                 this.pack();
                 this.setVisible(true);
                 historyPanel.add(masterPanel);
+            }
+            else
+            {
+                AdminPanel adminPanel = new AdminPanel(currentUser);
+                adminPanel.addListener(this);
+                this.setVisible(false);
+                this.setContentPane(adminPanel);
+                menu.remove(option);
+                menu.add(home);
+                menu.add(manageItem);
+                menu.add(manageSupplier);
+                menu.add(orderItem);
+                menu.add(historyOrder);
+                menu.addSeparator();
+                menu.add(option);
+                this.pack();
+                this.setVisible(true);
+                historyPanel.add(adminPanel);
             }
         }
     }
@@ -449,10 +467,11 @@ implements LoginListener, ActionListener, KeyListener, MasterListener, ManageIte
 
     @Override
     public void finishOrder(Vector<Order> orders) {
-        historyPanel.removeElement(historyPanel.lastElement());
-        MasterPanel panel = (MasterPanel) historyPanel.lastElement();
+        JPanel temp = historyPanel.get(0);
+        historyPanel.removeAllElements();
+        historyPanel.add(temp);
         this.setVisible(false);
-        this.setContentPane(panel);
+        this.setContentPane(temp);
         this.pack();
         this.repaint();
         this.setVisible(true);
