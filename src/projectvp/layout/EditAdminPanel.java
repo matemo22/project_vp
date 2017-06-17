@@ -14,6 +14,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
@@ -93,6 +94,7 @@ public class EditAdminPanel extends JPanel implements ActionListener
     {
         saveButton.addActionListener(this);
         cancelButton.addActionListener(this);
+        statusBox.addActionListener(this);
     }
 
     @Override
@@ -112,6 +114,10 @@ public class EditAdminPanel extends JPanel implements ActionListener
         if(e.getSource().equals(cancelButton))
         {
             listener.cancelAdmin();
+        }
+        if(e.getSource().equals(statusBox))
+        {
+            JOptionPane.showMessageDialog(null, "Akun di "+statusBox.getSelectedItem().toString()+"-kan!!");
         }
     }
   
