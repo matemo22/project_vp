@@ -260,5 +260,18 @@ public class OrderItemPanel extends JPanel implements ActionListener, TableModel
     public void setOim(OrderItemModel oim) {
         this.oim = oim;
     }
-
+    
+    public Supplier getSupplier()
+    {
+        for (Supplier s : suppliers) {
+            if(s.getMerek().getName().equals(pickSupplier.getSelectedItem()))
+            {
+                if(s.getLocation().equals(pickSuppLocation.getSelectedItem()))
+                {
+                    return s;
+                }
+            }
+        }
+        return null;
+    }
 }

@@ -13,14 +13,17 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.Vector;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 import projectvp.database.user.User;
+import projectvp.database.user.UserService;
 import projectvp.listener.AdminsListener;
 import projectvp.listener.LoginListener;
 
@@ -35,6 +38,7 @@ public class AddAdminPanel extends JPanel implements ActionListener, KeyListener
     private JPasswordField adminPasswordField;
     private JButton saveButton, cancelButton;
     private AdminsListener listener;
+    private Vector<User> users = new UserService().getUsers();
     
     public AddAdminPanel()
     {
@@ -92,18 +96,31 @@ public class AddAdminPanel extends JPanel implements ActionListener, KeyListener
     public void actionPerformed(ActionEvent e) {
         if(e.getSource().equals(saveButton))
         {
-            char[] a = adminPasswordField.getPassword();
-            String b ="";
-            for (int i = 0; i < a.length; i++) {
-                b=b+a[i];
+            boolean insert=true;
+            for(User u : users)
+            {
+                if(u.getUsername().toLowerCase().equals(adminNameField.getText().toLowerCase()))
+                {
+                    insert=false;
+                    break;
+                }
             }
-            User newUser = new User();
-            newUser.setUsername(adminNameField.getText());
-            newUser.setPassword(b);
-            newUser.setAuthority(2);
-            newUser.setStatus(1);
-            listener.saveUser(newUser);
-            
+            if(insert)
+            {
+                char[] a = adminPasswordField.getPassword();
+                String b ="";
+                for (int i = 0; i < a.length; i++) {
+                    b=b+a[i];
+                }
+                User newUser = new User();
+                newUser.setUsername(adminNameField.getText());
+                newUser.setPassword(b);
+                newUser.setAuthority(2);
+                newUser.setStatus(1);
+                listener.saveUser(newUser);
+            }
+            else
+                JOptionPane.showMessageDialog(null, "ERROR! USERNAME sudah terpakai!!");
         }
         if(e.getSource().equals(cancelButton))
             listener.cancelAdmin();

@@ -54,6 +54,23 @@ public class SupplierTableModel extends AbstractTableModel{
         }
     }
     
+    public void filterTable(String keyword)
+    {
+        rows.removeAllElements();
+        for (Supplier a : data)
+        {
+            if(a.getMerek().getName().toLowerCase().contains(keyword.toLowerCase())||a.getLocation().toLowerCase().contains(keyword.toLowerCase()))
+            {
+                //Masukkan isian ke table
+                Object[] arow = new Object[2];
+                arow[0]=a.getMerek().getName();
+                arow[1]=a.getLocation();
+                rows.add(arow);
+            }
+        }
+        fireTableDataChanged();
+    }
+    
     public void addRow(Object[] newRow)
     {
         Object[] aRow = new Object[3];

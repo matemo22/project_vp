@@ -465,13 +465,11 @@ implements LoginListener, ActionListener, KeyListener, MasterListener, ManageIte
 
     @Override
     public void deleteOrder() {
-        OrderItemPanel orderItemPanel = new OrderItemPanel(currentUser);
-        orderItemPanel.addListener(this);
+        OrderItemPanel orderItemPanel =(OrderItemPanel) historyPanel.lastElement();
         this.setVisible(false);
         this.setContentPane(orderItemPanel);
         this.pack();
         this.setVisible(true);
-        historyPanel.add(orderItemPanel);
     }
 
     @Override
@@ -483,8 +481,7 @@ implements LoginListener, ActionListener, KeyListener, MasterListener, ManageIte
     @Override
     public void cancelToOrder() {
         historyPanel.removeElement(historyPanel.lastElement());
-        OrderItemPanel panel = new OrderItemPanel(currentUser);
-        panel.addListener(this);
+        OrderItemPanel panel = (OrderItemPanel) historyPanel.lastElement();
         this.setVisible(false);
         this.setContentPane(panel);
         this.pack();
@@ -495,8 +492,7 @@ implements LoginListener, ActionListener, KeyListener, MasterListener, ManageIte
     @Override
     public void saveOrder(Object[] newOrder) {
         historyPanel.removeElement(historyPanel.lastElement());
-        OrderItemPanel panel = new OrderItemPanel(currentUser);
-        panel.addListener(this);
+        OrderItemPanel panel = (OrderItemPanel) historyPanel.lastElement();
         OrderItemModel itm = panel.getOrderTable();
         itm.addRow(newOrder);
         this.setVisible(false);
@@ -511,8 +507,7 @@ implements LoginListener, ActionListener, KeyListener, MasterListener, ManageIte
     public void cancelToOrderEdit()
     {
         historyPanel.removeElement(historyPanel.lastElement());
-        OrderItemPanel panel = new OrderItemPanel(currentUser);
-        panel.addListener(this);
+        OrderItemPanel panel = (OrderItemPanel) historyPanel.lastElement();
         this.setVisible(false);
         this.setContentPane(panel);
         this.pack();
@@ -523,8 +518,7 @@ implements LoginListener, ActionListener, KeyListener, MasterListener, ManageIte
     @Override
     public void saveOrderEdit(Object[] newOrder, int selectedRow) {
         historyPanel.removeElement(historyPanel.lastElement());
-        OrderItemPanel panel = new OrderItemPanel(currentUser);
-        panel.addListener(this);
+        OrderItemPanel panel = (OrderItemPanel) historyPanel.lastElement();
         OrderItemModel itm = panel.getOrderTable();
         itm.editRow(newOrder,selectedRow);
         this.setVisible(false);
@@ -536,9 +530,12 @@ implements LoginListener, ActionListener, KeyListener, MasterListener, ManageIte
     
     //managesupplier
      @Override
-     public SupplierTableModel searchUser(SupplierTableModel itm, String keyword) 
+     public SupplierTableModel searchSupplier(SupplierTableModel itm, String keyword) 
      {
-        return null;
+        if(keyword.length()>0)
+            itm.filterTable(keyword);
+        else itm = new SupplierTableModel();
+        return itm;
     }
 
     @Override
