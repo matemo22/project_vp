@@ -13,6 +13,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.Vector;
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -28,7 +30,7 @@ import projectvp.model.ItemTableModel;
  *
  * @author user
  */
-public class EditItemPanel extends JPanel implements ActionListener, ItemListener{
+public class EditItemPanel extends JPanel implements ActionListener, ItemListener, KeyListener{
     private JLabel titleLabel;
     private JTextField editNameField, editPriceField, editQuantityField;
     private JButton editButton, cancelButton;
@@ -95,10 +97,6 @@ public class EditItemPanel extends JPanel implements ActionListener, ItemListene
         
         productBox = new JComboBox();
         productBox.setModel(productModel);
-        for (int i = 0; i < product.length; i++) 
-        {
-            
-        }
         
         supplierLocationBox = new JComboBox(locationModel);
         locationModel.addElement("--Choose--");
@@ -163,7 +161,6 @@ public class EditItemPanel extends JPanel implements ActionListener, ItemListene
         editPriceField.setText(String.valueOf(prevBarang.getHarga()));
         editQuantityField = new JTextField();
         editQuantityField.setText(String.valueOf(prevBarang.getQty()));
-        
     }
     
     public void registerListener()
@@ -251,5 +248,20 @@ public class EditItemPanel extends JPanel implements ActionListener, ItemListene
                 editButton.setEnabled(false);
             }
         }
+    }
+
+    @Override
+    public void keyTyped(KeyEvent ke) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void keyPressed(KeyEvent ke) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void keyReleased(KeyEvent ke) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
