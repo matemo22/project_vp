@@ -19,5 +19,5 @@ public interface AdminsListener {
     public AdminTableModel searchUser(AdminTableModel atm, String keyword);
     public void saveUser(User newUser);
     public void cancelAdmin();
-    public void editUser(User newUser, User prevUser, int selectedIndex, AdminTableModel atm);
+    public void editUser(User newUser, User prevUser, int selectedIndex);
 }

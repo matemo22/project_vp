@@ -15,5 +15,5 @@ import projectvp.model.ItemTableModel;
 public interface ItemsListener {
     public void saveItem(Barang newBarang);
     public void cancel();
-    public void editItem(Barang newBarang, Barang prevBarang, int selectedIndex, ItemTableModel itm);
+    public void editItem(Barang newBarang, Barang prevBarang, int selectedIndex);
 }

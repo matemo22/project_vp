@@ -15,6 +15,6 @@ import projectvp.model.ItemTableModel;
  */
 public interface ManageItemListener {
     public void moveToAddItem();
-    public void moveToEditItem(int selectedRow, TableModel table, Barang prevBarang);
+    public void moveToEditItem(int selectedRow, Barang prevBarang);
     public ItemTableModel searchItem(ItemTableModel itm, String keyword);
 }

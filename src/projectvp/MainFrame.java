@@ -328,8 +328,8 @@ implements LoginListener, ActionListener, KeyListener, MasterListener, ManageIte
     }
 
     @Override
-    public void moveToEditItem(int selectedRow, TableModel table, Barang prevBarang) {
-        EditItemPanel editItemPanel = new EditItemPanel((ItemTableModel)table, selectedRow, prevBarang);
+    public void moveToEditItem(int selectedRow, Barang prevBarang) {
+        EditItemPanel editItemPanel = new EditItemPanel(selectedRow, prevBarang);
         editItemPanel.addListener(this);
         this.setVisible(false);
         this.setContentPane(editItemPanel);
@@ -371,12 +371,13 @@ implements LoginListener, ActionListener, KeyListener, MasterListener, ManageIte
     }
     
     @Override
-    public void editItem(Barang newBarang, Barang prevBarang, int selectedIndex, ItemTableModel itm) {
+    public void editItem(Barang newBarang, Barang prevBarang, int selectedIndex) {
+        historyPanel.removeElement(historyPanel.lastElement());
+        ManageItemPanel panel = (ManageItemPanel) historyPanel.lastElement();
+        ItemTableModel itm = panel.getTableModel();
         itm.editRow(newBarang, selectedIndex);
         BarangModel aim = new BarangModel();
         boolean hasil = aim.editBarang(newBarang, prevBarang);
-        historyPanel.removeElement(historyPanel.lastElement());
-        ManageItemPanel panel = (ManageItemPanel) historyPanel.lastElement();
         this.setVisible(false);
         this.setContentPane(panel);
         this.pack();
@@ -562,7 +563,7 @@ implements LoginListener, ActionListener, KeyListener, MasterListener, ManageIte
     }
 
     @Override
-    public void editUser(User newUser, User prevUser, int selectedIndex, AdminTableModel atm) {
+    public void editUser(User newUser, User prevUser, int selectedIndex) {
         
     }
 }

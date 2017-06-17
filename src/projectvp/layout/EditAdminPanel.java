@@ -14,6 +14,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+import projectvp.database.user.User;
 
 /**
  *
@@ -25,11 +26,16 @@ public class EditAdminPanel extends JPanel
     private JTextField adminNameField;
     private JPasswordField adminPasswordField;
     private JButton saveButton, cancelButton;
+    private User prevUser;
+    private int selectedIndex;
     
-    public EditAdminPanel()
+    public EditAdminPanel(int selectedIndex, User prevUser)
     {
+        this.selectedIndex=selectedIndex;
+        this.prevUser=prevUser;
         initComponent();
         buildGui();
+        registerListener();
     }
     
     private void buildGui()
@@ -64,6 +70,9 @@ public class EditAdminPanel extends JPanel
         cancelButton = new JButton("Cancel");
     }
     
-
+    private void registerListener()
+    {
+        
+    }
   
 }
