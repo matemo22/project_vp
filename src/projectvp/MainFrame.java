@@ -539,7 +539,7 @@ implements LoginListener, ActionListener, KeyListener, MasterListener, ManageIte
         historyPanel.removeElement(historyPanel.lastElement());
         ManageAdminPanel panel = (ManageAdminPanel) historyPanel.lastElement();
         AdminTableModel atm = panel.getTableModel();
-        Object[] temp = {newUser.getUsername(), newUser.getPassword(), newUser.getStatus()};
+        Object[] temp = {newUser.getUsername(), newUser.getPassword(), "Active"};
         atm.addRow(temp);
         this.setVisible(false);
         this.setContentPane(panel);

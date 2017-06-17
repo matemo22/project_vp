@@ -19,9 +19,9 @@ public class UserService {
         return dao.readAllUsers();
     }
     
-    public boolean addNewUser(User newBarang)
+    public boolean addNewUser(User newUser)
     {
-        return false;
+        return dao.insertUser(newUser);
     }
     
     public boolean updateUser(User newBarang, User prevBarang)
