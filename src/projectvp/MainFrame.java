@@ -536,9 +536,12 @@ implements LoginListener, ActionListener, KeyListener, MasterListener, ManageIte
     
     //managesupplier
      @Override
-     public SupplierTableModel searchUser(SupplierTableModel itm, String keyword) 
+     public SupplierTableModel searchSupplier(SupplierTableModel itm, String keyword) 
      {
-        return null;
+        if(keyword.length()>0)
+            itm.filterTable(keyword);
+        else itm = new SupplierTableModel();
+        return itm;
     }
 
     @Override

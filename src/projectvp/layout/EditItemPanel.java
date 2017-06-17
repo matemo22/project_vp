@@ -165,6 +165,8 @@ public class EditItemPanel extends JPanel implements ActionListener, ItemListene
     
     public void registerListener()
     {
+        editPriceField.addKeyListener(this);
+        editQuantityField.addKeyListener(this);
         editButton.addActionListener(this);
         cancelButton.addActionListener(this);
         productBox.addItemListener(this);
@@ -179,25 +181,32 @@ public class EditItemPanel extends JPanel implements ActionListener, ItemListene
         }
         if(e.getSource().equals(editButton))
         {
-            Barang a = new Barang();
-            a.setName(editNameField.getText());
-            a.setHarga(Integer.parseInt(editPriceField.getText()));
-            a.setQty(Integer.parseInt(editQuantityField.getText()));
-            a.setJenis(itemTypeBox.getSelectedItem().toString());
-            a.setGudang(1);
-            for (Supplier s : suppliers)
+            if(productBox.getSelectedIndex()!=0 && supplierNameBox.getSelectedIndex()!=0 && supplierLocationBox.getSelectedIndex()!=0 && editNameField.getText().length()!=0 && editPriceField.getText().length()!=0 && editQuantityField.getText().length()!=0 && itemTypeBox.getSelectedIndex()!=0)
             {
-                if(s.getMerek().getName().equals(supplierNameBox.getSelectedItem().toString()))
+                Barang a = new Barang();
+                a.setName(editNameField.getText());
+                a.setHarga(Integer.parseInt(editPriceField.getText()));
+                a.setQty(Integer.parseInt(editQuantityField.getText()));
+                a.setJenis(itemTypeBox.getSelectedItem().toString());
+                a.setGudang(1);
+                for (Supplier s : suppliers)
                 {
-                    if(s.getLocation().equals(supplierLocationBox.getSelectedItem().toString()))
+                    if(s.getMerek().getName().equals(supplierNameBox.getSelectedItem().toString()))
                     {
-                        a.setSupplier(s);
-                        break;
+                        if(s.getLocation().equals(supplierLocationBox.getSelectedItem().toString()))
+                        {
+                            a.setSupplier(s);
+                            break;
+                        }
                     }
                 }
+                a.setProduct(productBox.getSelectedItem().toString());
+                listener.editItem(a, prevBarang, selectedIndex);
             }
-            a.setProduct(productBox.getSelectedItem().toString());
-            listener.editItem(a, prevBarang, selectedIndex);
+            else
+            {
+                JOptionPane.showMessageDialog(null, "ERROR! Lengkapi semua data terlebih dahulu!!");
+            }
         }
     }
     
@@ -251,17 +260,22 @@ public class EditItemPanel extends JPanel implements ActionListener, ItemListene
     }
 
     @Override
-    public void keyTyped(KeyEvent ke) {
+    public void keyTyped(KeyEvent e) {
+        if(e.getSource().equals(editPriceField) || e.getSource().equals(editQuantityField))
+        {
+            if(e.getKeyChar() < '0' || e.getKeyChar() > '9'){
+                e.consume();
+            }
+        }
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
         
     }
 
     @Override
-    public void keyPressed(KeyEvent ke) {
-        
-    }
-
-    @Override
-    public void keyReleased(KeyEvent ke) {
+    public void keyReleased(KeyEvent e) {
         
     }
 }

@@ -11,6 +11,8 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -35,7 +37,7 @@ import projectvp.model.SupplierTableModel;
  *
  * @author user
  */
-public class ManageSupplierPanel extends JPanel implements TableModelListener, ListSelectionListener, ActionListener{
+public class ManageSupplierPanel extends JPanel implements TableModelListener, ListSelectionListener, ActionListener, KeyListener{
     private JLabel titleLabel;
     private JTextField searchField;
     private JButton goButton, addSuppButton, editSupButton;
@@ -103,6 +105,7 @@ public class ManageSupplierPanel extends JPanel implements TableModelListener, L
         addSuppButton.addActionListener(this);
         editSupButton.addActionListener(this);
         goButton.addActionListener(this);
+        searchField.addKeyListener(this);
     }
 
     @Override
@@ -127,16 +130,41 @@ public class ManageSupplierPanel extends JPanel implements TableModelListener, L
         }
         if(e.getSource().equals(goButton))
         {
-            
+            SupplierTableModel temp = supplierListener.searchSupplier(getTableModel(), searchField.getText());
+            supplierTable.setModel(temp);
         }
     }
       @Override
     public void tableChanged(TableModelEvent e) {
         
     }
-     public SupplierTableModel getTableModel()
+    
+    public SupplierTableModel getTableModel()
     {
         return (SupplierTableModel) supplierTable.getModel();
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+        if(e.getSource().equals(searchField))
+        {
+            SupplierTableModel temp = supplierListener.searchSupplier(getTableModel(), searchField.getText());
+            supplierTable.setModel(temp);
+            if(e.getKeyChar()==('\n'))
+            {
+                goButton.doClick();
+            }
+        }
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+        
     }
     
   

@@ -14,5 +14,5 @@ import projectvp.model.SupplierTableModel;
 public interface ManageSupplierListener {
     public void moveToAddSupplier();
     public void moveToEditSupplier();
-    public SupplierTableModel searchUser(SupplierTableModel itm, String keyword);
+    public SupplierTableModel searchSupplier(SupplierTableModel stm, String keyword);
 }
