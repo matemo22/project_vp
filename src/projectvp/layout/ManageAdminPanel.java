@@ -11,6 +11,8 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ListSelectionEvent;
@@ -26,7 +28,7 @@ import projectvp.model.ItemTableModel;
  *
  * @author user
  */
-public class ManageAdminPanel extends JPanel implements TableModelListener, ListSelectionListener, ActionListener{
+public class ManageAdminPanel extends JPanel implements TableModelListener, ListSelectionListener, ActionListener, KeyListener{
 
   private JLabel titleLabel;
     private JTextField searchField;
@@ -96,6 +98,7 @@ public class ManageAdminPanel extends JPanel implements TableModelListener, List
         addButton.addActionListener(this);
         editButton.addActionListener(this);
         goButton.addActionListener(this);
+        searchField.addKeyListener(this);
     }
 
     @Override
@@ -125,12 +128,36 @@ public class ManageAdminPanel extends JPanel implements TableModelListener, List
         }
         if(e.getSource().equals(goButton))
         {
-            
+            AdminTableModel temp = listener.searchUser(getTableModel(), searchField.getText());
+            adminTable.setModel(temp);
         }
     }
     
     public AdminTableModel getTableModel()
     {
         return (AdminTableModel) adminTable.getModel();
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+        
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+        if(e.getSource().equals(searchField))
+        {
+            AdminTableModel temp = listener.searchUser(getTableModel(), searchField.getText());
+            adminTable.setModel(temp);
+            if(e.getKeyChar()==('\n'))
+            {
+                goButton.doClick();
+            }
+        }
     }
 }

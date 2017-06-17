@@ -30,7 +30,6 @@ public class OrderHistoryTableModel extends AbstractTableModel {
         os = new OrderService();
         dataOrder = os.getOrder();
         rows =  new Vector<Object[]>();
-        System.out.println(dataOrder);
         for (Order a : dataOrder)
         {
             //Masukkan isian ke table

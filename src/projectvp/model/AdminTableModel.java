@@ -63,6 +63,27 @@ public class AdminTableModel extends AbstractTableModel{
         }
     }
     
+    public void filterTable(String keyword)
+    {
+        rows.removeAllElements();
+        for (User a : data)
+        {
+            if(a.getUsername().toLowerCase().contains(keyword.toLowerCase()) && a.getAuthority()==2)
+            {
+                //Masukkan isian ke table
+                Object[] arow = new Object[3];
+                arow[0]=a.getUsername();
+                arow[1]=a.getPassword();
+                if(a.getStatus()==1)
+                    arow[2]="Active";
+                else
+                    arow[2]="Deactive";
+                rows.add(arow);
+            }
+        }
+        fireTableDataChanged();
+    }
+    
     public void addRow(Object[] newRow)
     {
         Object[] aRow = new Object[3];
