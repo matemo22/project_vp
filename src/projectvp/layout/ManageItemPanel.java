@@ -10,6 +10,8 @@ import com.jgoodies.forms.layout.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.Vector;
 import javax.swing.*;
 import javax.swing.border.EtchedBorder;
@@ -26,7 +28,7 @@ import projectvp.listener.ManageItemListener;
  *
  * @author Matemo
  */
-public class ManageItemPanel extends JPanel implements TableModelListener, ListSelectionListener, ActionListener{
+public class ManageItemPanel extends JPanel implements TableModelListener, ListSelectionListener, ActionListener, KeyListener{
 
     private JLabel titleLabel;
     private JTextField searchField;
@@ -90,6 +92,7 @@ public class ManageItemPanel extends JPanel implements TableModelListener, ListS
     
     public void registerListener()
     {
+        searchField.addKeyListener(this);
         itemTable.getSelectionModel().addListSelectionListener(this);
         itemTable.getModel().addTableModelListener(this);
         addButton.addActionListener(this);
@@ -119,7 +122,8 @@ public class ManageItemPanel extends JPanel implements TableModelListener, ListS
         }
         if(e.getSource().equals(goButton))
         {
-            
+            ItemTableModel temp = listener.searchItem(getTableModel(), searchField.getText());
+            itemTable.setModel(temp);
         }
     }
 
@@ -131,5 +135,28 @@ public class ManageItemPanel extends JPanel implements TableModelListener, ListS
     public ItemTableModel getTableModel()
     {
         return (ItemTableModel) itemTable.getModel();
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+        if(e.getSource().equals(searchField))
+        {
+            ItemTableModel temp = listener.searchItem(getTableModel(), searchField.getText());
+            itemTable.setModel(temp);
+            if(e.getKeyChar()==('\n'))
+            {
+                goButton.doClick();
+            }
+        }
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+        
     }
 }

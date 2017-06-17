@@ -250,6 +250,7 @@ implements LoginListener, ActionListener, KeyListener, MasterListener, ManageIte
                 historyPanel.removeElementAt(1);
             }
             OrderItemPanel orderItemPanel = new OrderItemPanel(currentUser);
+            orderItemPanel.addListener(this);
             this.setVisible(false);
             this.setContentPane(orderItemPanel);
             this.pack();
@@ -359,7 +360,10 @@ implements LoginListener, ActionListener, KeyListener, MasterListener, ManageIte
 
     @Override
     public ItemTableModel searchItem(ItemTableModel itm, String keyword) {
-        return null;
+        if(keyword.length()>0)
+            itm.filterTable(keyword);
+        else itm = new ItemTableModel();
+        return itm;
     }
 
     @Override

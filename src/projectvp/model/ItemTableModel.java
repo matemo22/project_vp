@@ -62,6 +62,28 @@ public class ItemTableModel extends AbstractTableModel{
         }
     }
     
+    public void filterTable(String keyword)
+    {
+        rows.removeAllElements();
+        for (Barang a : data)
+        {
+            if(a.getName().toLowerCase().contains(keyword.toLowerCase()))
+            {
+                //Masukkan isian ke table
+                Object[] arow = new Object[7];
+                arow[0]=a.getName();
+                arow[1]=a.getJenis();
+                arow[2]=a.getProduct();
+                arow[3]=a.getSupplier().getMerek().getName()+" "+a.getSupplier().getLocation();
+                arow[4]=a.getHarga();
+                arow[5]=a.getQty();
+                arow[6]=a.getGudang();
+                rows.add(arow);
+            }
+        }
+        fireTableDataChanged();
+    }
+    
     public void addRow(Object[] newRow)
     {
         Object[] aRow = new Object[7];
