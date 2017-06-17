@@ -11,10 +11,13 @@ import projectvp.model.AdminTableModel;
 
 /**
  *
- * @author user
+ * @author Matemo
  */
-public interface ManageAdminListener {
+public interface AdminsListener {
     public void moveToAddUser();
     public void moveToEditUser(int selectedRow, TableModel table, User prevUser);
-    public AdminTableModel searchUser(AdminTableModel itm, String keyword);
+    public AdminTableModel searchUser(AdminTableModel atm, String keyword);
+    public void saveUser(User newUser);
+    public void cancelAdmin();
+    public void editUser(User newUser, User prevUser, int selectedIndex, AdminTableModel atm);
 }

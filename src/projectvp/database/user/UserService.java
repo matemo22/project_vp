@@ -18,4 +18,14 @@ public class UserService {
     {
         return dao.readAllUsers();
     }
+    
+    public boolean addNewUser(User newBarang)
+    {
+        return false;
+    }
+    
+    public boolean updateUser(User newBarang, User prevBarang)
+    {
+        return false;
+    }
 }

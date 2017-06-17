@@ -2,6 +2,7 @@ package projectvp.database.user;
 
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -42,6 +43,7 @@ public class UserJdbcDao {
             while(rs.next())
             {
                 User user = new User();
+                user.setId(rs.getInt("id"));
                 user.setUsername(rs.getString("username"));
                 user.setPassword(rs.getString("password"));
                 user.setAuthority(rs.getInt("authority"));
@@ -68,5 +70,26 @@ public class UserJdbcDao {
         }
         
         return result;
+    }
+    
+    public boolean insertBarang(User newUser)
+    {
+        int berhasil=0;
+        String query = "INSERT INTO user (username, password, authority, status) values (?,?,?,?)"; 
+        PreparedStatement pstmt = null;
+        
+        try {
+            pstmt = conn.prepareStatement(query);
+            pstmt.setString(1, newUser.getUsername());
+            pstmt.setString(2, newUser.getPassword());
+            pstmt.setInt(3, newUser.getAuthority());
+            pstmt.setInt(4, newUser.getStatus());
+            berhasil = pstmt.executeUpdate();
+            conn.commit();
+        } catch (SQLException ex) {
+//            Logger.getLogger(UserJdbcDao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        if(berhasil > 0) return true;
+        else return false;
     }
 }

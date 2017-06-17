@@ -17,7 +17,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
-import projectvp.listener.ManageAdminListener;
+import projectvp.listener.AdminsListener;
 import projectvp.model.AdminTableModel;
 import projectvp.model.ItemTableModel;
 
@@ -31,9 +31,9 @@ public class ManageAdminPanel extends JPanel implements TableModelListener, List
     private JTextField searchField;
     private JButton goButton, addButton, editButton;
     private JComboBox filter;
-    private JTable itemTable;
+    private JTable adminTable;
     private JScrollPane tablePane;
-    private ManageAdminListener listener;
+    private AdminsListener listener;
     private int selectedIndex;
 
     public ManageAdminPanel() {
@@ -42,7 +42,7 @@ public class ManageAdminPanel extends JPanel implements TableModelListener, List
         registerListener();
     }
     
-    public void addListener(ManageAdminListener listener)
+    public void addListener(AdminsListener listener)
     {
         this.listener=listener;
     }
@@ -76,22 +76,22 @@ public class ManageAdminPanel extends JPanel implements TableModelListener, List
         editButton.setEnabled(false);
         
         AdminTableModel tableModel = new AdminTableModel();
-        itemTable = new JTable();
-        itemTable.setModel(tableModel);
-        itemTable.setAutoCreateRowSorter(true);
-        itemTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        itemTable.setRowSelectionAllowed(true);
-        itemTable.setColumnSelectionAllowed(false);
-        itemTable.setRowHeight(50);
+        adminTable = new JTable();
+        adminTable.setModel(tableModel);
+        adminTable.setAutoCreateRowSorter(true);
+        adminTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        adminTable.setRowSelectionAllowed(true);
+        adminTable.setColumnSelectionAllowed(false);
+        adminTable.setRowHeight(50);
         
-        tablePane = new JScrollPane(itemTable);
+        tablePane = new JScrollPane(adminTable);
         tablePane.setPreferredSize(new Dimension(400, 100));
     }
     
     private void registerListener()
     {
-        itemTable.getSelectionModel().addListSelectionListener(this);
-        itemTable.getModel().addTableModelListener(this);
+        adminTable.getSelectionModel().addListSelectionListener(this);
+        adminTable.getModel().addTableModelListener(this);
         addButton.addActionListener(this);
         editButton.addActionListener(this);
         goButton.addActionListener(this);
@@ -104,10 +104,10 @@ public class ManageAdminPanel extends JPanel implements TableModelListener, List
 
     @Override
     public void valueChanged(ListSelectionEvent e) {
-        if(e.getSource().equals(itemTable.getSelectionModel()))
+        if(e.getSource().equals(adminTable.getSelectionModel()))
         {
             editButton.setEnabled(true);
-            selectedIndex=itemTable.getSelectedRow();
+            selectedIndex=adminTable.getSelectedRow();
         }
     }
 
@@ -126,5 +126,10 @@ public class ManageAdminPanel extends JPanel implements TableModelListener, List
         {
             
         }
+    }
+    
+    public AdminTableModel getTableModel()
+    {
+        return (AdminTableModel) adminTable.getModel();
     }
 }

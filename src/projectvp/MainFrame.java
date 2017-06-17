@@ -29,10 +29,10 @@ import projectvp.layout.ManageSupplierPanel;
 import projectvp.layout.MasterPanel;
 import projectvp.layout.OrderItemPanel;
 import projectvp.listener.AddItemOrderListener;
+import projectvp.listener.AdminsListener;
 import projectvp.listener.EditOrderItemListener;
 import projectvp.listener.ItemsListener;
 import projectvp.listener.LoginListener;
-import projectvp.listener.ManageAdminListener;
 import projectvp.listener.ManageItemListener;
 import projectvp.listener.ManageSupplierListener;
 import projectvp.listener.MasterListener;
@@ -42,6 +42,7 @@ import projectvp.model.BarangModel;
 import projectvp.model.LoginModel;
 import projectvp.model.OrderItemModel;
 import projectvp.model.OrderModel;
+import projectvp.model.UserModel;
 
 /**
  *
@@ -50,7 +51,7 @@ import projectvp.model.OrderModel;
 public class MainFrame extends JFrame
 implements LoginListener, ActionListener, KeyListener, MasterListener, ManageItemListener,
         ItemsListener, OrderItemListener, EditOrderItemListener,ManageSupplierListener,
-        AddItemOrderListener, ManageAdminListener
+        AddItemOrderListener, AdminsListener
     {
     private Vector<JPanel> historyPanel=new Vector<JPanel>();
     private JMenuBar menuBar, loginMenuBar;
@@ -514,7 +515,7 @@ implements LoginListener, ActionListener, KeyListener, MasterListener, ManageIte
     @Override
     public void moveToAddUser() {
         AddAdminPanel addAdminPanel = new AddAdminPanel();
-//        addAdminPanel.addListener(this);
+        addAdminPanel.addListener(this);
         this.setVisible(false);
         this.setContentPane(addAdminPanel);
         this.pack();
@@ -530,5 +531,37 @@ implements LoginListener, ActionListener, KeyListener, MasterListener, ManageIte
     @Override
     public AdminTableModel searchUser(AdminTableModel itm, String keyword) {
         return null;
+    }
+
+    @Override
+    public void saveUser(User newUser) {
+        historyPanel.removeElement(historyPanel.lastElement());
+        ManageAdminPanel panel = (ManageAdminPanel) historyPanel.lastElement();
+        AdminTableModel atm = panel.getTableModel();
+        Object[] temp = {newUser.getUsername(), newUser.getPassword(), newUser.getStatus()};
+        atm.addRow(temp);
+        this.setVisible(false);
+        this.setContentPane(panel);
+        this.pack();
+        this.repaint();
+        this.setVisible(true);
+        UserModel um = new UserModel();
+        boolean hasil = um.addNewBarang(newUser);
+    }
+
+    @Override
+    public void cancelAdmin() {
+        historyPanel.removeElement(historyPanel.lastElement());
+        ManageAdminPanel panel = (ManageAdminPanel) historyPanel.lastElement();
+        this.setVisible(false);
+        this.setContentPane(panel);
+        this.pack();
+        this.repaint();
+        this.setVisible(true);
+    }
+
+    @Override
+    public void editUser(User newUser, User prevUser, int selectedIndex, AdminTableModel atm) {
+        
     }
 }
