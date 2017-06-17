@@ -35,7 +35,6 @@ public class EditItemPanel extends JPanel implements ActionListener, ItemListene
     private JComboBox productBox, supplierNameBox, supplierLocationBox, itemTypeBox;
     private TitledBorder titleBorder;
     private ItemsListener listener;
-    private ItemTableModel itm;
     private int selectedIndex;
     private String[] product={"--Choose--", "TV", "Kulkas", "Mesin Cuci", "Dispenser", "AC"};
     private String[][] type={{"LED", "LCD", "CRT"}, {"Satu Pintu", "Dua Pintu"}, {"Top load", "Front load"}, {"Upside", "Downside"}, {"Inventer", "Low watt", "Standart", "Hybrid"}};
@@ -47,8 +46,7 @@ public class EditItemPanel extends JPanel implements ActionListener, ItemListene
     Vector<Supplier> suppliers = new SupplierService().getSupplier();
     private Barang prevBarang;
     
-    public EditItemPanel(ItemTableModel itm, int selectedIndex, Barang prevBarang) {
-        this.itm = itm;
+    public EditItemPanel(int selectedIndex, Barang prevBarang) {
         this.selectedIndex = selectedIndex;
         this.prevBarang = prevBarang;
         initComponent();
@@ -202,7 +200,7 @@ public class EditItemPanel extends JPanel implements ActionListener, ItemListene
                 }
             }
             a.setProduct(productBox.getSelectedItem().toString());
-            listener.editItem(a, prevBarang, selectedIndex, itm);
+            listener.editItem(a, prevBarang, selectedIndex);
         }
     }
     

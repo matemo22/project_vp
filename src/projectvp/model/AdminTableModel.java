@@ -36,7 +36,7 @@ public class AdminTableModel extends AbstractTableModel{
                 if(a.getStatus()==1)
                     arow[2]="Active";
                 else
-                    arow[2]="Banned";
+                    arow[2]="Deactive";
                 rows.add(arow);
             }
         }
@@ -50,13 +50,13 @@ public class AdminTableModel extends AbstractTableModel{
     
     public void editRow(User newUser, int row)
     {
-        Object[] editRow = new Object[7];
+        Object[] editRow = new Object[3];
         editRow[0]=newUser.getUsername();
         editRow[1]=newUser.getPassword();
         if(newUser.getStatus()==1)
             editRow[2]="Active";
         else
-            editRow[2]="Banned";
+            editRow[2]="Deactive";
         for (int i = 0; i < 3; i++)
         {
             setValueAt(editRow[i], row, i);
@@ -108,7 +108,7 @@ public class AdminTableModel extends AbstractTableModel{
         return false;
     }
     
-    public User getBarang(String name)
+    public User getUser(String name)
     {
         for (User a : data)
         {

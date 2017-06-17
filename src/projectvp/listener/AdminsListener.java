@@ -15,9 +15,9 @@ import projectvp.model.AdminTableModel;
  */
 public interface AdminsListener {
     public void moveToAddUser();
-    public void moveToEditUser(int selectedRow, TableModel table, User prevUser);
+    public void moveToEditUser(int selectedRow, User prevUser);
     public AdminTableModel searchUser(AdminTableModel atm, String keyword);
     public void saveUser(User newUser);
     public void cancelAdmin();
-    public void editUser(User newUser, User prevUser, int selectedIndex, AdminTableModel atm);
+    public void editUser(User newUser, User prevUser, int selectedIndex);
 }

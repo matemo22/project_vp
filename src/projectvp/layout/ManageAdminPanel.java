@@ -17,6 +17,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
+import projectvp.database.user.User;
 import projectvp.listener.AdminsListener;
 import projectvp.model.AdminTableModel;
 import projectvp.model.ItemTableModel;
@@ -119,8 +120,8 @@ public class ManageAdminPanel extends JPanel implements TableModelListener, List
         }
         if(e.getSource().equals(editButton))
         {
-//            Barang prevBarang = getTableModel().getBarang((String) getTableModel().getValueAt(selectedIndex, 0));
-//            listener.moveToEditItem(selectedIndex, getTableModel(), prevBarang);
+            User prevUser = getTableModel().getUser((String) getTableModel().getValueAt(selectedIndex, 0));
+            listener.moveToEditUser(selectedIndex, prevUser);
         }
         if(e.getSource().equals(goButton))
         {

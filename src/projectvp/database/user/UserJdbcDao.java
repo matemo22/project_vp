@@ -92,4 +92,25 @@ public class UserJdbcDao {
         if(berhasil > 0) return true;
         else return false;
     }
+    
+    public boolean updateUser(User newUser, User prevUser)
+    {
+        int berhasil = 0;
+        String query = "UPDATE user SET username = ?, password = ?, authority = ?, status = ? WHERE id = ?";
+        PreparedStatement pstmt = null;
+        try {
+            pstmt = conn.prepareStatement(query);
+            pstmt.setString(1, newUser.getUsername());
+            pstmt.setString(2, newUser.getPassword());
+            pstmt.setInt(3, newUser.getAuthority());
+            pstmt.setInt(4, newUser.getStatus());
+            pstmt.setInt(5, prevUser.getId());
+            berhasil = pstmt.executeUpdate();
+            conn.commit();
+        } catch (SQLException ex) {
+//            Logger.getLogger(UserJdbcDao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        if(berhasil > 0) return true;
+        else return false;
+    }
 }
