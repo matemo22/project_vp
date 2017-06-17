@@ -13,6 +13,6 @@ import projectvp.database.supplier.Supplier;
  * @author user
  */
 public interface AddSupplierListener {
-    public void saveSupplier(Supplier supplier,Brand brand);
+    public void saveSupplier(Supplier supplier,Brand brand, boolean newBrand);
     public void cancelToManageSupplier();
 }

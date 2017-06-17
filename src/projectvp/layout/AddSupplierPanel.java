@@ -125,25 +125,33 @@ public class AddSupplierPanel extends JPanel implements ActionListener, ItemList
           if(e.getSource().equals(saveButton))
         {
             Supplier newSupplier = new Supplier();
-            Brand newBrand= new Brand();
-            
-            if (manufactureNotListedCheckBox.isSelected()) {
+            Brand newBrand=new Brand();
+            boolean isNew = false;
+            if(manufactureNotListedCheckBox.isSelected())
+            {
                 newBrand.setName(newManufactureField.getText());
-                
+                isNew = true;
             }
-            else{
-                newBrand.setName(manfactureListComboBox.getSelectedItem().toString());
+            else
+            {
+                for(Brand a : brands)
+                {
+                    if(a.getName().equals(manfactureListComboBox.getSelectedItem()))
+                    {
+                        newBrand=a;
+                        break;
+                    }
+                }
             }
             
             if (locationNotListedCheckBox.isSelected()) {
                 newSupplier.setLocation(newLocationField.getText());
-                
             }
             else{
                 newSupplier.setLocation(locationListComboBox.getSelectedItem().toString());
             }
             
-            listener.saveSupplier(newSupplier, newBrand);
+            listener.saveSupplier(newSupplier, newBrand, isNew);
         }
         if(e.getSource().equals(cancelButton))
         {

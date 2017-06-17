@@ -28,7 +28,7 @@ public class SupplierModel {
         return bs.addNewBrand(newBrand);
     }
     
-    public boolean editSupplier(Supplier newBarang, Barang prev)
+    public boolean editSupplier(Supplier newBarang, Supplier prev)
     {
         return ss.updateBarang(newBarang, prev);
     }

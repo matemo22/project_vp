@@ -74,7 +74,7 @@ public class BrandJdbcDao {
         PreparedStatement pstmt = null;
         try {
             pstmt = conn.prepareStatement(query);
-            pstmt.setString(2, newBrand.getName());
+            pstmt.setString(1, newBrand.getName());
             berhasil = pstmt.executeUpdate();
             conn.commit();
         } catch (SQLException ex) {

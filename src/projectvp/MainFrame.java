@@ -15,6 +15,7 @@ import java.util.*;
 import javax.swing.*;
 import javax.swing.table.TableModel;
 import projectvp.database.Brand.Brand;
+import projectvp.database.Brand.BrandService;
 import projectvp.database.barang.Barang;
 import projectvp.database.order.Order;
 import projectvp.database.supplier.Supplier;
@@ -562,19 +563,31 @@ implements LoginListener, ActionListener, KeyListener, MasterListener, ManageIte
         historyPanel.add(editSupplierPanel);
     }
     @Override
-    public void saveSupplier(Supplier supplier, Brand brand) {
+    public void saveSupplier(Supplier supplier, Brand brand, boolean newBrand) {
         historyPanel.removeElement(historyPanel.lastElement());
         ManageSupplierPanel manageSupplierPanel = new ManageSupplierPanel();
         manageSupplierPanel.addListener(this);
+//        SupplierTableModel a = manageSupplierPanel.getTableModel();
+//        a.addRow(newRow);
         this.setVisible(false);
         this.setContentPane(manageSupplierPanel);
         this.pack();
         this.setVisible(true);
-        historyPanel.add(manageSupplierPanel);
         SupplierModel sm = new SupplierModel();
-        boolean hasil1 = sm.addNewBrand(brand);
+        boolean hasil1;
+        if(true)
+        {
+            hasil1 = sm.addNewBrand(brand);
+            Vector<Brand> brands = new BrandService().getBrands();
+            for (Brand a : brands) {
+                if(brand.getName().equals(a.getName()))
+                {
+                    brand.setId(a.getId());
+                    break;
+                }
+            }
+        }
         boolean hasil2 = sm.addNewSupplier(supplier,brand);
-        
     }
      @Override
     public void cancelToManageSupplier() {
@@ -585,7 +598,6 @@ implements LoginListener, ActionListener, KeyListener, MasterListener, ManageIte
         this.setContentPane(manageSupplierPanel);
         this.pack();
         this.setVisible(true);
-        historyPanel.add(manageSupplierPanel);
     }
     
     
