@@ -14,15 +14,19 @@ import java.awt.event.KeyListener;
 import java.util.*;
 import javax.swing.*;
 import javax.swing.table.TableModel;
+import projectvp.database.Brand.Brand;
 import projectvp.database.barang.Barang;
 import projectvp.database.order.Order;
+import projectvp.database.supplier.Supplier;
 import projectvp.database.user.User;
 import projectvp.layout.AddAdminPanel;
 import projectvp.layout.AddItemOrderPanel;
 import projectvp.layout.AddItemPanel;
+import projectvp.layout.AddSupplierPanel;
 import projectvp.layout.EditAdminPanel;
 import projectvp.layout.EditItemPanel;
 import projectvp.layout.EditOrderItemPanel;
+import projectvp.layout.EditSupplierPanel;
 import projectvp.layout.HistoryOrderPanel;
 import projectvp.model.ItemTableModel;
 import projectvp.layout.LoginPanel;
@@ -31,8 +35,10 @@ import projectvp.layout.ManageSupplierPanel;
 import projectvp.layout.MasterPanel;
 import projectvp.layout.OrderItemPanel;
 import projectvp.listener.AddItemOrderListener;
+import projectvp.listener.AddSupplierListener;
 import projectvp.listener.AdminsListener;
 import projectvp.listener.EditOrderItemListener;
+import projectvp.listener.EditSupplierListener;
 import projectvp.listener.ItemsListener;
 import projectvp.listener.LoginListener;
 import projectvp.listener.ManageItemListener;
@@ -44,6 +50,8 @@ import projectvp.model.BarangModel;
 import projectvp.model.LoginModel;
 import projectvp.model.OrderItemModel;
 import projectvp.model.OrderModel;
+import projectvp.model.SupplierModel;
+import projectvp.model.SupplierTableModel;
 import projectvp.model.UserModel;
 
 /**
@@ -53,7 +61,7 @@ import projectvp.model.UserModel;
 public class MainFrame extends JFrame
 implements LoginListener, ActionListener, KeyListener, MasterListener, ManageItemListener,
         ItemsListener, OrderItemListener, EditOrderItemListener,ManageSupplierListener,
-        AddItemOrderListener, AdminsListener
+        AddItemOrderListener, AdminsListener, AddSupplierListener,EditSupplierListener
     {
     private Vector<JPanel> historyPanel=new Vector<JPanel>();
     private JMenuBar menuBar, loginMenuBar;
@@ -237,6 +245,7 @@ implements LoginListener, ActionListener, KeyListener, MasterListener, ManageIte
                 historyPanel.removeElementAt(1);
             }
             ManageSupplierPanel manageSupplierPanel = new ManageSupplierPanel();
+            manageSupplierPanel.addListener(this);
             this.setVisible(false);
             this.setContentPane(manageSupplierPanel);
             this.pack();
@@ -315,6 +324,7 @@ implements LoginListener, ActionListener, KeyListener, MasterListener, ManageIte
     public void moveToManageSupplier()
     {
         ManageSupplierPanel manageSupplierPanel = new ManageSupplierPanel();
+        manageSupplierPanel.addListener(this);
         this.setVisible(false);
         this.setContentPane(manageSupplierPanel);
         this.pack();
@@ -524,14 +534,60 @@ implements LoginListener, ActionListener, KeyListener, MasterListener, ManageIte
     }
     
     //managesupplier
+     @Override
+     public SupplierTableModel searchUser(SupplierTableModel itm, String keyword) 
+     {
+        return null;
+    }
+
     @Override
     public void moveToAddSupplier() {
+        AddSupplierPanel addSupplierPanel = new AddSupplierPanel();
+        addSupplierPanel.addListener(this);
+        this.setVisible(false);
+        this.setContentPane(addSupplierPanel);
+        this.pack();
+        this.setVisible(true);
+        historyPanel.add(addSupplierPanel);
     }
 
     @Override
-    public void moveToEditSupplier() {
+    public void moveToEditSupplier() {/l,;l
+        EditSupplierPanel editSupplierPanel = new EditSupplierPanel();
+        editSupplierPanel.addListener(this);
+        this.setVisible(false);
+        this.setContentPane(editSupplierPanel);
+        this.pack();
+        this.setVisible(true);
+        historyPanel.add(editSupplierPanel);
     }
-
+    @Override
+    public void saveSupplier(Supplier supplier, Brand brand) {
+        ManageAdminPanel manageSupplierPanel = new ManageAdminPanel();
+        manageSupplierPanel.addListener(this);
+        this.setVisible(false);
+        this.setContentPane(manageSupplierPanel);
+        this.pack();
+        this.setVisible(true);
+        historyPanel.add(manageSupplierPanel);
+        SupplierModel sm = new SupplierModel();
+        boolean hasil1 = sm.addNewSupplier(supplier);
+        boolean hasil2 = sm.addNewBrand(brand);
+        
+    }
+     @Override
+    public void cancelToManageSupplier() {
+        ManageSupplierPanel manageSupplierPanel = new ManageSupplierPanel();
+        manageSupplierPanel.addListener(this);
+        this.setVisible(false);
+        this.setContentPane(manageSupplierPanel);
+        this.pack();
+        this.setVisible(true);
+        historyPanel.add(manageSupplierPanel);
+    }
+    
+    
+//admin
     @Override
     public void moveToAddUser() {
         AddAdminPanel addAdminPanel = new AddAdminPanel();

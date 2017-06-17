@@ -5,6 +5,8 @@
  */
 package projectvp.listener;
 
+import projectvp.model.SupplierTableModel;
+
 /**
  *
  * @author user
@@ -12,4 +14,5 @@ package projectvp.listener;
 public interface ManageSupplierListener {
     public void moveToAddSupplier();
     public void moveToEditSupplier();
+    public SupplierTableModel searchUser(SupplierTableModel itm, String keyword);
 }

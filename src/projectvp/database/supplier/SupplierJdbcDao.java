@@ -6,6 +6,7 @@
 package projectvp.database.supplier;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -69,7 +70,24 @@ public class SupplierJdbcDao {
         
         return result;
     }
-    
+     public boolean insertSupplier(Supplier newSupplier)
+    {
+        int berhasil=0;
+        String query = "INSERT INTO `supplier`(`id_merek`, `location`) values (?,?)"; 
+        PreparedStatement pstmt = null;
+        try {
+            pstmt = conn.prepareStatement(query);
+            pstmt.setInt(1, newSupplier.getMerek().getId());
+            pstmt.setString(2, newSupplier.getLocation());
+            berhasil = pstmt.executeUpdate();
+            conn.commit();
+        } catch (SQLException ex) {
+//            Logger.getLogger(OrderJdbcDao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        if(berhasil > 0) return true;
+        else return false;
+    }
+     
     private Brand getNameBrand(ResultSet rs) throws SQLException
     {
         BrandService bs = new BrandService();
