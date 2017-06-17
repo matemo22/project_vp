@@ -15,6 +15,7 @@ import java.util.*;
 import javax.swing.*;
 import javax.swing.table.TableModel;
 import projectvp.database.barang.Barang;
+import projectvp.database.order.Order;
 import projectvp.database.user.User;
 import projectvp.layout.AddItemOrderPanel;
 import projectvp.layout.AddItemPanel;
@@ -37,6 +38,7 @@ import projectvp.listener.OrderItemListener;
 import projectvp.model.BarangModel;
 import projectvp.model.LoginModel;
 import projectvp.model.OrderItemModel;
+import projectvp.model.OrderModel;
 
 /**
  *
@@ -49,7 +51,7 @@ implements LoginListener, ActionListener, KeyListener, MasterListener, ManageIte
     private Vector<JPanel> historyPanel=new Vector<JPanel>();
     private JMenuBar menuBar, loginMenuBar;
     private JMenu option, menu, currentUserMenu;
-    private JMenuItem home, editProfile, language, manageItem, manageAdmin, manageSupplier, logout;
+    private JMenuItem home, editProfile, language, manageItem, manageAdmin, manageSupplier, logout,orderItem;
     private User currentUser;
     
     public MainFrame()
@@ -102,6 +104,9 @@ implements LoginListener, ActionListener, KeyListener, MasterListener, ManageIte
         manageSupplier = new JMenuItem("Manage Supplier");
         manageSupplier.addActionListener(this);
         manageSupplier.setMnemonic(KeyEvent.VK_S);
+        orderItem = new JMenuItem("Order Item");
+        orderItem.addActionListener(this);
+        orderItem.setMnemonic(KeyEvent.VK_R);
         menu.add(option);
         menuBar.add(menu);
 //        menuBar.add(option);
@@ -140,6 +145,7 @@ implements LoginListener, ActionListener, KeyListener, MasterListener, ManageIte
                 menu.add(manageItem);
                 menu.add(manageAdmin);
                 menu.add(manageSupplier);
+                menu.add(orderItem);
                 menu.addSeparator();
     //            option.add(profile);
                 menu.add(option);
@@ -224,6 +230,19 @@ implements LoginListener, ActionListener, KeyListener, MasterListener, ManageIte
             this.pack();
             this.setVisible(true);
             historyPanel.add(manageSupplierPanel);
+        }
+         if(e.getSource().equals(orderItem))
+        {
+            for (int i = 1; i < historyPanel.size(); i++)
+            {
+                historyPanel.removeElementAt(1);
+            }
+            OrderItemPanel orderItemPanel = new OrderItemPanel();
+            this.setVisible(false);
+            this.setContentPane(orderItemPanel);
+            this.pack();
+            this.setVisible(true);
+            historyPanel.add(orderItemPanel);
         }
     }
 
@@ -383,8 +402,19 @@ implements LoginListener, ActionListener, KeyListener, MasterListener, ManageIte
     }
 
     @Override
-    public void finishOrder() {
-
+    public void finishOrder(Vector<Order> orders) {
+        historyPanel.removeElement(historyPanel.lastElement());
+        MasterPanel panel = (MasterPanel) historyPanel.lastElement();
+        this.setVisible(false);
+        this.setContentPane(panel);
+        this.pack();
+        this.repaint();
+        this.setVisible(true);
+        OrderModel om = new OrderModel();
+        for (int i = 0; i <orders.size() ; i++) {
+        boolean hasil = om.addNewOrder(orders.elementAt(i));
+        }
+       
     }
 
     @Override

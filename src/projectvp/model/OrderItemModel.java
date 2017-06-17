@@ -9,6 +9,7 @@ import java.util.Vector;
 import javax.swing.table.AbstractTableModel;
 import projectvp.database.barang.Barang;
 import projectvp.database.barang.BarangService;
+import projectvp.database.order.Order;
 import projectvp.layout.AddItemOrderPanel;
 
 /**
@@ -17,6 +18,7 @@ import projectvp.layout.AddItemOrderPanel;
  */
 public class OrderItemModel extends AbstractTableModel {
      private Vector<AddItemOrderPanel> data;
+     private Vector<Order> dataOrder;
     private String[] columnNames = {"Nama", "Produk", "Jenis","Supplier", "Quantity"};
     private Class<?>[] columnClasses = {String.class, String.class, String.class, String.class, Integer.class};
     private Vector<Object[]> rows;
@@ -109,4 +111,5 @@ public class OrderItemModel extends AbstractTableModel {
     {
         return false;
     }
+    
 }

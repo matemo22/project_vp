@@ -13,6 +13,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.sql.Date;
+import java.util.Calendar;
 import java.util.Vector;
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
@@ -22,6 +24,7 @@ import javax.swing.event.TableModelListener;
 import projectvp.database.Brand.Brand;
 import projectvp.database.Brand.BrandService;
 import projectvp.database.barang.Barang;
+import projectvp.database.order.Order;
 import projectvp.database.supplier.Supplier;
 import projectvp.database.supplier.SupplierService;
 import projectvp.listener.OrderItemListener;
@@ -166,6 +169,40 @@ public class OrderItemPanel extends JPanel implements ActionListener, TableModel
                  
              
          }
+         if(e.getSource().equals(finishOrder)){
+            Vector<Order> orders= new Vector<Order>();
+            for (int i = 0; i < orderTable.getRowCount(); i++) 
+            {
+                Order newOrder = new Order();
+                newOrder.setNamaBarang(orderTable.getValueAt(i, 0).toString());
+                newOrder.setProdukName(orderTable.getValueAt(i, 1).toString());
+                newOrder.setProdukType(orderTable.getValueAt(i, 2).toString());
+                String[] split;
+
+                String a= orderTable.getValueAt(i, 3).toString();
+                split= a.split(" ");
+                String suppName=split[0];
+                String suppLoc=split[1];
+                 for (Supplier s : suppliers)
+                {
+                    if(s.getMerek().getName().equals(suppName))
+                    {
+                        if(s.getLocation().equals(suppLoc))
+                        {
+                            newOrder.setSupplier(s);
+                            break;
+                        }
+                    }
+                }
+                newOrder.setQty(Integer.parseInt(orderTable.getValueAt(i, 4).toString()));
+                java.sql.Date date = new java.sql.Date(Calendar.getInstance().getTime().getTime());
+                newOrder.setDate(date);
+                orders.add(newOrder);
+            }
+            orderItemListener.finishOrder(orders);     
+                 
+            orderTable.removeAll();;
+         }
 
     }
 
@@ -209,6 +246,14 @@ public class OrderItemPanel extends JPanel implements ActionListener, TableModel
                 pickSuppLocation.setEnabled(false);
             }
         }
+    }
+
+    public OrderItemModel getOim() {
+        return oim;
+    }
+
+    public void setOim(OrderItemModel oim) {
+        this.oim = oim;
     }
 
 }

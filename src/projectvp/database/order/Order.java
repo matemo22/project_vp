@@ -1,5 +1,8 @@
 package projectvp.database.order;
 
+import java.sql.Date;
+import projectvp.database.supplier.Supplier;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -11,23 +14,33 @@ package projectvp.database.order;
  * @author user
  */
 public class Order {
-    private String suppName,suppLocation,produkName,produkType, namaBarang;
-    private int harga, qty;
+    private String produkName,produkType, namaBarang;
+    private int id,qty;
+    private Date date;
+    private Supplier supplier;
 
-    public String getSuppName() {
-        return suppName;
+    public Date getDate() {
+        return date;
     }
 
-    public void setSuppName(String suppName) {
-        this.suppName = suppName;
+    public void setDate(Date date) {
+        this.date = date;
+    }
+    
+    public int getId() {
+        return id;
     }
 
-    public String getSuppLocation() {
-        return suppLocation;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public void setSuppLocation(String suppLocation) {
-        this.suppLocation = suppLocation;
+    public Supplier getSupplier() {
+        return supplier;
+    }
+
+    public void setSupplier(Supplier supplier) {
+        this.supplier = supplier;
     }
 
     public String getProdukName() {
@@ -52,14 +65,6 @@ public class Order {
 
     public void setNamaBarang(String namaBarang) {
         this.namaBarang = namaBarang;
-    }
-
-    public int getHarga() {
-        return harga;
-    }
-
-    public void setHarga(int harga) {
-        this.harga = harga;
     }
 
     public int getQty() {

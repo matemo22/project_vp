@@ -5,10 +5,19 @@
  */
 package projectvp.model;
 
+import projectvp.database.order.Order;
+import projectvp.database.order.OrderService;
+
 /**
  *
  * @author user
  */
 public class OrderModel {
+     OrderService os = new OrderService();
+    
+    public boolean addNewOrder(Order newOrder)
+    {
+        return os.addNewOrder(newOrder);
+    }
     
 }

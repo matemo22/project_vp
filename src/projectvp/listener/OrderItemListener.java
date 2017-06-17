@@ -5,7 +5,9 @@
  */
 package projectvp.listener;
 
+import java.util.Vector;
 import javax.swing.table.TableModel;
+import projectvp.database.order.Order;
 
 /**
  *
@@ -13,7 +15,7 @@ import javax.swing.table.TableModel;
  */
 public interface OrderItemListener {
     public void moveToAddItemOrder(Object a, Object b);
-    public void finishOrder();
+    public void finishOrder(Vector<Order> newOrder);
     public void deleteOrder();
     public void clearAll();
     public void moveToEditItemOrder(int row,TableModel a);
