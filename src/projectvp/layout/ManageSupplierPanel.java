@@ -26,6 +26,7 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import projectvp.database.barang.Barang;
+import projectvp.database.supplier.Supplier;
 import projectvp.listener.ManageItemListener;
 import projectvp.listener.ManageSupplierListener;
 import projectvp.model.ItemTableModel;
@@ -122,8 +123,8 @@ public class ManageSupplierPanel extends JPanel implements TableModelListener, L
         }
         if(e.getSource().equals(editSupButton))
         {
-//            Barang prevBarang = getTableModel().getBarang((String) getTableModel().getValueAt(selectedIndex, 0));
-//            listener.moveToEditItem(selectedIndex, prevBarang);
+        Supplier prevSupplier = getTableModel().getSupplier((String) getTableModel().getValueAt(selectedIndex, 0));
+            supplierListener.moveToEditSupplier(selectedIndex, prevSupplier);
         }
         if(e.getSource().equals(goButton))
         {

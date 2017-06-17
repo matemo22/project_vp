@@ -30,7 +30,7 @@ public class SupplierTableModel extends AbstractTableModel{
         for (Supplier a : data)
         {
             //Masukkan isian ke table
-            Object[] arow = new Object[7];
+            Object[] arow = new Object[2];
             arow[0]=a.getMerek().getName();
             arow[1]=a.getLocation();
            
@@ -103,6 +103,16 @@ public class SupplierTableModel extends AbstractTableModel{
     public boolean isCellEditable(int row, int col)
     {
         return false;
+    }
+    
+     public Supplier getSupplier(String supplier)
+    {
+        for (Supplier a : data)
+        {
+            if(a.getMerek().getName().equals(supplier))
+                return a;
+        }
+        return null;
     }
     
 }

@@ -553,8 +553,8 @@ implements LoginListener, ActionListener, KeyListener, MasterListener, ManageIte
     }
 
     @Override
-    public void moveToEditSupplier() {/l,;l
-        EditSupplierPanel editSupplierPanel = new EditSupplierPanel();
+    public void moveToEditSupplier(int selectedIndex, Supplier prevSupplier) {
+        EditSupplierPanel editSupplierPanel = new EditSupplierPanel(selectedIndex,prevSupplier);
         editSupplierPanel.addListener(this);
         this.setVisible(false);
         this.setContentPane(editSupplierPanel);
@@ -567,8 +567,9 @@ implements LoginListener, ActionListener, KeyListener, MasterListener, ManageIte
         historyPanel.removeElement(historyPanel.lastElement());
         ManageSupplierPanel manageSupplierPanel = new ManageSupplierPanel();
         manageSupplierPanel.addListener(this);
-//        SupplierTableModel a = manageSupplierPanel.getTableModel();
-//        a.addRow(newRow);
+        SupplierTableModel tableModel = manageSupplierPanel.getTableModel();
+        Object[] temp={ brand.getName(),supplier.getLocation()};
+        tableModel.addRow(temp);
         this.setVisible(false);
         this.setContentPane(manageSupplierPanel);
         this.pack();
@@ -598,6 +599,21 @@ implements LoginListener, ActionListener, KeyListener, MasterListener, ManageIte
         this.setContentPane(manageSupplierPanel);
         this.pack();
         this.setVisible(true);
+    }
+    
+      @Override
+    public void cancelFromEditSuppiler() {
+        historyPanel.removeElement(historyPanel.lastElement());
+        ManageSupplierPanel manageSupplierPanel = new ManageSupplierPanel();
+        manageSupplierPanel.addListener(this);
+        this.setVisible(false);
+        this.setContentPane(manageSupplierPanel);
+        this.pack();
+        this.setVisible(true);
+    }
+
+    @Override
+    public void saveEdit() {
     }
     
     
@@ -676,4 +692,6 @@ implements LoginListener, ActionListener, KeyListener, MasterListener, ManageIte
         this.repaint();
         this.setVisible(true);
     }
+
+  
 }

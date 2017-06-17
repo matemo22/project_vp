@@ -5,6 +5,7 @@
  */
 package projectvp.listener;
 
+import projectvp.database.supplier.Supplier;
 import projectvp.model.SupplierTableModel;
 
 /**
@@ -13,6 +14,6 @@ import projectvp.model.SupplierTableModel;
  */
 public interface ManageSupplierListener {
     public void moveToAddSupplier();
-    public void moveToEditSupplier();
+    public void moveToEditSupplier(int selectedIndex, Supplier prevSupplier);
     public SupplierTableModel searchUser(SupplierTableModel itm, String keyword);
 }

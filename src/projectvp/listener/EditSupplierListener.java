@@ -10,5 +10,6 @@ package projectvp.listener;
  * @author user
  */
 public interface EditSupplierListener {
-    
+    public void cancelFromEditSuppiler();
+    public void saveEdit();
 }
