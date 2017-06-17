@@ -93,10 +93,6 @@ public class OrderJdbcDao {
             pstmt.setInt(5, newOrder.getQty());
             pstmt.setDate(6, newOrder.getDate());
             pstmt.setInt(7, newOrder.getUser().getId());
-            System.out.println("user id"+newOrder.getUser().getId());
-            System.out.println("user id"+newOrder.getUser().getUsername());
-            System.out.println("user id"+newOrder.getUser().getAuthority());
-            System.out.println("222");
             berhasil = pstmt.executeUpdate();
             conn.commit();
         } catch (SQLException ex) {
