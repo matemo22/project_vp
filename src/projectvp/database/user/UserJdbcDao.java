@@ -72,7 +72,7 @@ public class UserJdbcDao {
         return result;
     }
     
-    public boolean insertBarang(User newUser)
+    public boolean insertUser(User newUser)
     {
         int berhasil=0;
         String query = "INSERT INTO user (username, password, authority, status) values (?,?,?,?)"; 
