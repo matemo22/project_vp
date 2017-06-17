@@ -20,6 +20,7 @@ import projectvp.database.user.User;
 import projectvp.layout.AddAdminPanel;
 import projectvp.layout.AddItemOrderPanel;
 import projectvp.layout.AddItemPanel;
+import projectvp.layout.EditAdminPanel;
 import projectvp.layout.EditItemPanel;
 import projectvp.layout.EditOrderItemPanel;
 import projectvp.model.ItemTableModel;
@@ -526,8 +527,14 @@ implements LoginListener, ActionListener, KeyListener, MasterListener, ManageIte
     }
 
     @Override
-    public void moveToEditUser(int selectedRow, TableModel table, User prevUser) {
-        
+    public void moveToEditUser(int selectedRow, User prevUser) {
+        EditAdminPanel editAdminPanel = new EditAdminPanel(selectedRow, prevUser);
+        editAdminPanel.addListener(this);
+        this.setVisible(false);
+        this.setContentPane(editAdminPanel);
+        this.pack();
+        this.setVisible(true);
+        historyPanel.add(editAdminPanel);
     }
 
     @Override
@@ -564,6 +571,16 @@ implements LoginListener, ActionListener, KeyListener, MasterListener, ManageIte
 
     @Override
     public void editUser(User newUser, User prevUser, int selectedIndex) {
-        
+        historyPanel.removeElement(historyPanel.lastElement());
+        ManageAdminPanel panel = (ManageAdminPanel) historyPanel.lastElement();
+        AdminTableModel aim = panel.getTableModel();
+        aim.editRow(newUser, selectedIndex);
+        UserModel um = new UserModel();
+        boolean hasil = um.editBarang(newUser, prevUser);
+        this.setVisible(false);
+        this.setContentPane(panel);
+        this.pack();
+        this.repaint();
+        this.setVisible(true);
     }
 }

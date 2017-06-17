@@ -24,8 +24,8 @@ public class UserService {
         return dao.insertUser(newUser);
     }
     
-    public boolean updateUser(User newBarang, User prevBarang)
+    public boolean updateUser(User newBarang, User prevUser)
     {
-        return false;
+        return dao.updateUser(newBarang, prevUser);
     }
 }
