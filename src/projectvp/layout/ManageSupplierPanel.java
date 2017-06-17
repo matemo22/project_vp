@@ -9,6 +9,8 @@ import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -19,7 +21,13 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import projectvp.database.barang.Barang;
+import projectvp.listener.ManageItemListener;
+import projectvp.listener.ManageSupplierListener;
 import projectvp.model.ItemTableModel;
 import projectvp.model.SupplierTableModel;
 
@@ -27,18 +35,24 @@ import projectvp.model.SupplierTableModel;
  *
  * @author user
  */
-public class ManageSupplierPanel extends JPanel {
+public class ManageSupplierPanel extends JPanel implements TableModelListener, ListSelectionListener, ActionListener{
     private JLabel titleLabel;
     private JTextField searchField;
-    private JButton goButton, addItemButton, detailItemButton;
+    private JButton goButton, addSuppButton, editSupButton;
     private JComboBox filter;
     private JTable supplierTable;
     private JScrollPane tablePane;
-    private Barang[] allBarang;
+    private ManageSupplierListener supplierListener;
+    private int selectedIndex;
 
     public ManageSupplierPanel() {
         initComponent();
         buildGui();
+        registerListener();
+    }
+     public void addListener(ManageSupplierListener listener)
+    {
+        this.supplierListener=listener;
     }
 
     private void buildGui() {
@@ -55,8 +69,8 @@ public class ManageSupplierPanel extends JPanel {
         this.add(searchField,c.xy(2, 4));
         this.add(tablePane, c.xywh(2, 6,7,4));
         this.add(goButton, c.xy(4, 4,CellConstraints.CENTER, CellConstraints.CENTER));
-        this.add(addItemButton, c.xy(6, 4));
-        this.add(detailItemButton, c.xy(8, 4));
+        this.add(addSuppButton, c.xy(6, 4));
+        this.add(editSupButton, c.xy(8, 4));
     }
 
     private void initComponent() {
@@ -64,8 +78,9 @@ public class ManageSupplierPanel extends JPanel {
         titleLabel.setFont(new Font("Arial", Font.BOLD, 30));
         searchField= new JTextField();
         goButton = new JButton("Go!");
-        addItemButton = new JButton("Add Supplier");
-        detailItemButton = new JButton("Edit Supplier");
+        addSuppButton = new JButton("Add Supplier");
+        editSupButton = new JButton("Edit Supplier");
+        editSupButton.setEnabled(false);
         
         SupplierTableModel tableModel = new SupplierTableModel(); 
         supplierTable = new JTable();
@@ -80,4 +95,49 @@ public class ManageSupplierPanel extends JPanel {
         tablePane = new JScrollPane(supplierTable);
         tablePane.setPreferredSize(new Dimension(400, 100));
     }
+    
+    public void registerListener()
+    {
+        supplierTable.getSelectionModel().addListSelectionListener(this);
+        supplierTable.getModel().addTableModelListener(this);
+        addSuppButton.addActionListener(this);
+        editSupButton.addActionListener(this);
+        goButton.addActionListener(this);
+    }
+
+    @Override
+    public void valueChanged(ListSelectionEvent e) {
+        if(e.getSource().equals(supplierTable.getSelectionModel()))
+        {
+            editSupButton.setEnabled(true);
+            selectedIndex=supplierTable.getSelectedRow();
+        }
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if(e.getSource().equals(addSuppButton))
+        {
+            supplierListener.moveToAddSupplier();
+        }
+        if(e.getSource().equals(editSupButton))
+        {
+//            Barang prevBarang = getTableModel().getBarang((String) getTableModel().getValueAt(selectedIndex, 0));
+//            listener.moveToEditItem(selectedIndex, prevBarang);
+        }
+        if(e.getSource().equals(goButton))
+        {
+            
+        }
+    }
+      @Override
+    public void tableChanged(TableModelEvent e) {
+        
+    }
+     public SupplierTableModel getTableModel()
+    {
+        return (SupplierTableModel) supplierTable.getModel();
+    }
+    
+  
 }

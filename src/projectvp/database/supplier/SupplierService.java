@@ -6,6 +6,7 @@
 package projectvp.database.supplier;
 
 import java.util.Vector;
+import projectvp.database.order.Order;
 
 /**
  *
@@ -17,5 +18,9 @@ public class SupplierService {
     public Vector<Supplier> getSupplier()
     {
         return dao.readAllSuppliers();
+    }
+      public boolean addNewSupplier(Order newOrder)
+    {
+        return dao.insertSupplier(newOrder);
     }
 }

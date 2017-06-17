@@ -167,7 +167,8 @@ public class AddItemPanel extends JPanel implements ActionListener, ItemListener
         if(e.getSource().equals(cancelButton))
         {
             listener.cancel();
-        }
+        } 
+        
     }
 
     @Override

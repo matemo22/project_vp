@@ -20,7 +20,7 @@ public class OrderService {
      private OrderJdbcDao dao = new OrderJdbcDao();
     
     public Vector<Order> getOrder()
-    {System.out.println("service");
+    {
         return dao.readAllOrder();
     }
       public boolean addNewOrder(Order newOrder)

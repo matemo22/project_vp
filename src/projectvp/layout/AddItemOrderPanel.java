@@ -78,8 +78,8 @@ public class AddItemOrderPanel extends JPanel implements ActionListener, ItemLis
         this.add(new JLabel("Qty:"), c.xy(2, 10));
         this.add(detailQuantityField, c.xy(4, 10));
 
-        this.add(saveButton, c.xy(4, 14));
-        this.add(cancelButton, c.xy(2, 14));
+        this.add(saveButton, c.xy(2, 14));
+        this.add(cancelButton, c.xy(4, 14));
     }
 
     private void initComponent() {
