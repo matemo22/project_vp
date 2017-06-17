@@ -67,8 +67,6 @@ public class LoginPanel extends JPanel implements ActionListener, KeyListener
         passwordField = new JPasswordField(20);
         loginButton = new JButton("Login");
         registerButton = new JButton("Register");
-        usernameField.setText("matemo22");
-        passwordField.setText("asdf");
     }
     
     private void registerListener()
