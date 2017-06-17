@@ -13,6 +13,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.Vector;
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -31,7 +33,7 @@ import projectvp.listener.ItemsListener;
  *
  * @author user
  */
-public class AddItemPanel extends JPanel implements ActionListener, ItemListener{
+public class AddItemPanel extends JPanel implements ActionListener, ItemListener, KeyListener{
 
     private JLabel titleLabel;
     private JTextField itemNameField, itemPriceField, itemQuantityField;
@@ -129,6 +131,8 @@ public class AddItemPanel extends JPanel implements ActionListener, ItemListener
 
     public void registerListener()
     {
+        itemPriceField.addKeyListener(this);
+        itemQuantityField.addKeyListener(this);
         productBox.addItemListener(this);
         supplierNameBox.addItemListener(this);
         saveButton.addActionListener(this);
@@ -139,30 +143,37 @@ public class AddItemPanel extends JPanel implements ActionListener, ItemListener
     public void actionPerformed(ActionEvent e) {
         if(e.getSource().equals(saveButton))
         {
-            Barang newBarang = new Barang();
-            newBarang.setName(itemNameField.getText());
-            newBarang.setProduct(productBox.getSelectedItem().toString());
-            newBarang.setJenis(itemTypeBox.getSelectedItem().toString());
-            for (Supplier s : suppliers)
+            if(productBox.getSelectedIndex()!=0 && supplierNameBox.getSelectedIndex()!=0 && supplierLocationBox.getSelectedIndex()!=0 && itemNameField.getText().length()!=0 && itemPriceField.getText().length()!=0 && itemQuantityField.getText().length()!=0 && itemTypeBox.getSelectedIndex()!=0)
             {
-                if(s.getMerek().getName().equals(supplierNameBox.getSelectedItem().toString()))
+                Barang newBarang = new Barang();
+                newBarang.setName(itemNameField.getText());
+                newBarang.setProduct(productBox.getSelectedItem().toString());
+                newBarang.setJenis(itemTypeBox.getSelectedItem().toString());
+                for (Supplier s : suppliers)
                 {
-                    if(s.getLocation().equals(supplierLocationBox.getSelectedItem().toString()))
+                    if(s.getMerek().getName().equals(supplierNameBox.getSelectedItem().toString()))
                     {
-                        newBarang.setSupplier(s);
-                        break;
+                        if(s.getLocation().equals(supplierLocationBox.getSelectedItem().toString()))
+                        {
+                            newBarang.setSupplier(s);
+                            break;
+                        }
                     }
                 }
+                newBarang.setHarga(Integer.parseInt(itemPriceField.getText()));
+                newBarang.setQty(Integer.parseInt(itemQuantityField.getText()));
+                if(productBox.getSelectedItem().toString().equals("TV") || productBox.getSelectedItem().toString().equals("Kulkas"))
+                    newBarang.setGudang(1);
+                else if(productBox.getSelectedItem().toString().equals("Mesin Cuci"))
+                    newBarang.setGudang(2);
+                else if(productBox.getSelectedItem().toString().equals("Dispenser") || productBox.getSelectedItem().toString().equals("AC"))
+                    newBarang.setGudang(3);
+                listener.saveItem(newBarang);
             }
-            newBarang.setHarga(Integer.parseInt(itemPriceField.getText()));
-            newBarang.setQty(Integer.parseInt(itemQuantityField.getText()));
-            if(productBox.getSelectedItem().toString().equals("TV") || productBox.getSelectedItem().toString().equals("Kulkas"))
-                newBarang.setGudang(1);
-            else if(productBox.getSelectedItem().toString().equals("Mesin Cuci"))
-                newBarang.setGudang(2);
-            else if(productBox.getSelectedItem().toString().equals("Dispenser") || productBox.getSelectedItem().toString().equals("AC"))
-                newBarang.setGudang(3);
-            listener.saveItem(newBarang);
+            else
+            {
+                JOptionPane.showMessageDialog(null, "ERROR! Lengkapi semua data terlebih dahulu!!");
+            }
         }
         if(e.getSource().equals(cancelButton))
         {
@@ -225,5 +236,25 @@ public class AddItemPanel extends JPanel implements ActionListener, ItemListener
                 supplierLocationBox.setEnabled(false);
             }
         }
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+        if(e.getSource().equals(itemPriceField) || e.getSource().equals(itemQuantityField))
+        {
+            if(e.getKeyChar() < '0' || e.getKeyChar() > '9'){
+                e.consume();
+            }
+        }
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+        
     }
 }
