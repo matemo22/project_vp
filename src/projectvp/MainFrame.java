@@ -474,7 +474,7 @@ implements LoginListener, ActionListener, KeyListener, MasterListener, ManageIte
 
     @Override
     public void clearAll() {
-
+        
     }
     
      //addorderitem
