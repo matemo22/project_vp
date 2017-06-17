@@ -11,6 +11,8 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -19,28 +21,29 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 import projectvp.database.user.User;
-import projectvp.listener.AddAdminListener;
+import projectvp.listener.AdminsListener;
 import projectvp.listener.LoginListener;
 
 /**
  *
  * @author user
  */
-public class AddAdminPanel extends JPanel 
+public class AddAdminPanel extends JPanel implements ActionListener, KeyListener
 {
     private JLabel titleLabel;
     private JTextField adminNameField;
     private JPasswordField adminPasswordField;
     private JButton saveButton, cancelButton;
-    private AddAdminListener listener;
+    private AdminsListener listener;
     
     public AddAdminPanel()
     {
         initComponent();
         buildGui();
+        registerListener();
     }
     
-    public void addListener(AddAdminListener listener)
+    public void addListener(AdminsListener listener)
     {
         this.listener=listener;
     }
@@ -62,8 +65,8 @@ public class AddAdminPanel extends JPanel
         this.add(new JLabel("Password"), c.xyw(2, 8,3, CellConstraints.CENTER, CellConstraints.CENTER));
         this.add(adminPasswordField, c.xyw(2, 10,3, CellConstraints.CENTER, CellConstraints.CENTER));
         
-        
         this.add(saveButton, c.xy(2, 14));
+        saveButton.setEnabled(false);
         this.add(cancelButton, c.xy(4, 14));
     }
     
@@ -77,6 +80,51 @@ public class AddAdminPanel extends JPanel
         cancelButton = new JButton("Cancel");
     }
     
+    public void registerListener()
+    {
+        adminNameField.addKeyListener(this);
+        adminPasswordField.addKeyListener(this);
+        saveButton.addActionListener(this);
+        cancelButton.addActionListener(this);
+    }
 
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if(e.getSource().equals(saveButton))
+        {
+            char[] a = adminPasswordField.getPassword();
+            String b ="";
+            for (int i = 0; i < a.length; i++) {
+                b=b+a[i];
+            }
+            User newUser = new User();
+            newUser.setUsername(adminNameField.getText());
+            newUser.setPassword(b);
+            newUser.setAuthority(2);
+            newUser.setStatus(1);
+            listener.saveUser(newUser);
+            
+        }
+        if(e.getSource().equals(cancelButton))
+            listener.cancelAdmin();
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+        if(adminNameField.getText().length()!=0 && adminPasswordField.getPassword().length!=0)
+        {
+            saveButton.setEnabled(true);
+        }
+        else saveButton.setEnabled(false);
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+    }
   
 }
