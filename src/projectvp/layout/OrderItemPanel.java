@@ -27,6 +27,7 @@ import projectvp.database.barang.Barang;
 import projectvp.database.order.Order;
 import projectvp.database.supplier.Supplier;
 import projectvp.database.supplier.SupplierService;
+import projectvp.database.user.User;
 import projectvp.listener.OrderItemListener;
 import projectvp.model.ItemTableModel;
 import projectvp.model.OrderItemModel;
@@ -50,11 +51,13 @@ public class OrderItemPanel extends JPanel implements ActionListener, TableModel
     Vector<Supplier> suppliers = new SupplierService().getSupplier();
     private OrderItemModel oim;
     int selectedRow;
+    private User currentUser;
              
-    public OrderItemPanel() {
+    public OrderItemPanel(User user) {
         initComponent();
         buildGui();
         registerListener();
+        this.currentUser=user;
     }
 
     public void addListener(OrderItemListener a) {
@@ -197,6 +200,8 @@ public class OrderItemPanel extends JPanel implements ActionListener, TableModel
                 newOrder.setQty(Integer.parseInt(orderTable.getValueAt(i, 4).toString()));
                 java.sql.Date date = new java.sql.Date(Calendar.getInstance().getTime().getTime());
                 newOrder.setDate(date);
+              
+                newOrder.setUser(this.currentUser);
                 orders.add(newOrder);
             }
             orderItemListener.finishOrder(orders);     

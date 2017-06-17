@@ -5,6 +5,7 @@
  */
 package projectvp.listener;
 
+import projectvp.database.user.User;
 import projectvp.layout.MasterPanel;
 
 /**
@@ -15,5 +16,5 @@ public interface MasterListener {
     public void moveToManageItem();
     public void moveToManageAdmin();
     public void moveToManageSupplier();
-    public void moveToOrderItem();
+    public void moveToOrderItem(User user);
 }
