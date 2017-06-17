@@ -22,6 +22,7 @@ import projectvp.layout.AddItemOrderPanel;
 import projectvp.layout.AddItemPanel;
 import projectvp.layout.EditItemPanel;
 import projectvp.layout.EditOrderItemPanel;
+import projectvp.layout.HistoryOrderPanel;
 import projectvp.model.ItemTableModel;
 import projectvp.layout.LoginPanel;
 import projectvp.layout.ManageAdminPanel;
@@ -56,7 +57,7 @@ implements LoginListener, ActionListener, KeyListener, MasterListener, ManageIte
     private Vector<JPanel> historyPanel=new Vector<JPanel>();
     private JMenuBar menuBar, loginMenuBar;
     private JMenu option, menu, currentUserMenu;
-    private JMenuItem home, editProfile, language, manageItem, manageAdmin, manageSupplier, logout,orderItem;
+    private JMenuItem home, editProfile, language, manageItem, manageAdmin, manageSupplier, logout,orderItem,historyOrder;
     private User currentUser;
     
     public MainFrame()
@@ -112,6 +113,9 @@ implements LoginListener, ActionListener, KeyListener, MasterListener, ManageIte
         orderItem = new JMenuItem("Order Item");
         orderItem.addActionListener(this);
         orderItem.setMnemonic(KeyEvent.VK_R);
+        historyOrder = new JMenuItem("History Order");
+        historyOrder.addActionListener(this);
+        historyOrder.setMnemonic(KeyEvent.VK_H);
         menu.add(option);
         menuBar.add(menu);
 //        menuBar.add(option);
@@ -151,6 +155,7 @@ implements LoginListener, ActionListener, KeyListener, MasterListener, ManageIte
                 menu.add(manageAdmin);
                 menu.add(manageSupplier);
                 menu.add(orderItem);
+                menu.add(historyOrder);
                 menu.addSeparator();
     //            option.add(profile);
                 menu.add(option);
@@ -249,6 +254,19 @@ implements LoginListener, ActionListener, KeyListener, MasterListener, ManageIte
             this.pack();
             this.setVisible(true);
             historyPanel.add(orderItemPanel);
+        }
+           if(e.getSource().equals(historyOrder))
+        {
+            for (int i = 1; i < historyPanel.size(); i++)
+            {
+                historyPanel.removeElementAt(1);
+            }
+            HistoryOrderPanel historyOrderPanel = new HistoryOrderPanel();
+            this.setVisible(false);
+            this.setContentPane(historyOrderPanel);
+            this.pack();
+            this.setVisible(true);
+            historyPanel.add(historyOrderPanel);
         }
     }
 

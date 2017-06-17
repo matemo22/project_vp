@@ -12,6 +12,7 @@ import projectvp.database.barang.Barang;
 import projectvp.database.supplier.Supplier;
 import projectvp.database.supplier.SupplierService;
 import projectvp.database.user.User;
+import projectvp.database.user.UserService;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -34,7 +35,7 @@ public class OrderJdbcDao {
     public Vector<Order> readAllOrder()
     {
         Vector<Order> result = null;
-        String query = "SELECT * FROM order";
+        String query = "SELECT * FROM `order`";
         Statement stmt = null;
         ResultSet rs = null;
         try {
@@ -53,13 +54,13 @@ public class OrderJdbcDao {
                 order.setNamaBarang(rs.getString("namaBarang"));
                 order.setQty(rs.getInt("quantity"));
                 order.setDate(rs.getDate("tglPesan"));
-                User CurrentUser= new User();
-                order.setUser(CurrentUser);
+                User tempUser = getUser(rs);
+                order.setUser(tempUser);
                 result.add(order);
             }
         }
         catch (SQLException ex) {
-            
+//            Logger.getLogger(OrderJdbcDao.class.getName()).log(Level.SEVERE, null, ex);
         }
         finally
         {
@@ -115,4 +116,19 @@ public class OrderJdbcDao {
         }
         return null;
     }
+     private User getUser(ResultSet rs) throws SQLException
+    {
+        UserService Us = new UserService();
+        Vector<User> users = Us.getUsers();
+        for (User u : users)
+        {
+            if(rs.getInt("user")==u.getId())
+            {
+                return u;
+            }
+        }
+        return null;
+    }
+     
+   
 }

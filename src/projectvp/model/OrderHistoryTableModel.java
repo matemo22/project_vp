@@ -7,41 +7,45 @@ package projectvp.model;
 
 import java.util.Vector;
 import javax.swing.table.AbstractTableModel;
-import projectvp.database.barang.Barang;
-import projectvp.database.barang.BarangService;
 import projectvp.database.order.Order;
 import projectvp.database.order.OrderService;
+import projectvp.database.user.User;
 import projectvp.layout.AddItemOrderPanel;
 
 /**
  *
  * @author user
  */
-public class OrderItemModel extends AbstractTableModel {
-     private Vector<AddItemOrderPanel> data;
+public class OrderHistoryTableModel extends AbstractTableModel {
      private Vector<Order> dataOrder;
-    private String[] columnNames = {"Nama", "Produk", "Jenis","Supplier", "Quantity"};
-    private Class<?>[] columnClasses = {String.class, String.class, String.class, String.class, Integer.class};
+    private String[] columnNames = {"Nama", "Produk", "Jenis","Supplier", "Quantity","Tgl Pesan","Pemesan"};
+    private Class<?>[] columnClasses = {String.class, String.class, String.class, String.class, Integer.class,String.class,String.class};
     private Vector<Object[]> rows;
    private OrderService os;
+   User currentUser;
     
-    public OrderItemModel()
+   
+    public OrderHistoryTableModel()
     {
-        data= new Vector<AddItemOrderPanel>();
+        os = new OrderService();
+        dataOrder = os.getOrder();
         rows =  new Vector<Object[]>();
-        for (AddItemOrderPanel a : data)
+        System.out.println(dataOrder);
+        for (Order a : dataOrder)
         {
             //Masukkan isian ke table
-            Object[] arow = new Object[5];
-            arow[0]=a.getDetailNamePanel().getText();
-            arow[1]=a.getProductBox().getSelectedItem();
-            arow[2]=a.getProductModel().getSelectedItem();
-            arow[3]=a.getOip().getSuppplierModel().getSelectedItem()+ " "+ a.getOip().getLocationSuppModel().getSelectedItem();
-            arow[4]=a.getDetailQuantityField().getText();
+            Object[] arow = new Object[7];
+            arow[0]=a.getNamaBarang();
+            arow[1]=a.getProdukName();
+            arow[2]=a.getProdukType();
+            arow[3]=a.getSupplier().getMerek().getName()+" "+a.getSupplier().getLocation();
+            arow[4]=a.getQty();
+            arow[5]=a.getDate();
+            arow[6]=a.getUser().getUsername();
             rows.add(arow);
         }
     }
-   
+    
   
     public void hapus(int row)
     {
