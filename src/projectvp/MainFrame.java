@@ -120,7 +120,7 @@ implements LoginListener, ActionListener, KeyListener, MasterListener, ManageIte
         historyOrder = new JMenuItem("History Order");
         historyOrder.addActionListener(this);
         historyOrder.setMnemonic(KeyEvent.VK_H);
-        menuBar.add(menu);
+//        menuBar.add(menu);
 //        menuBar.add(option);
     }
     
@@ -140,6 +140,7 @@ implements LoginListener, ActionListener, KeyListener, MasterListener, ManageIte
         currentUser = user;
         if(currentUser!=null)
         {
+            menuBar.add(menu);
             menuBar.add(Box.createHorizontalGlue());
             currentUserMenu = new JMenu(currentUser.getUsername());
             currentUserMenu.add(editProfile);
@@ -197,7 +198,6 @@ implements LoginListener, ActionListener, KeyListener, MasterListener, ManageIte
             this.setVisible(false);
             menuBar.removeAll();
             menu.removeAll();
-            menuBar.add(menu);
             LoginPanel panel = new LoginPanel();
             this.setContentPane(panel);
             panel.addLoginListener(this);
