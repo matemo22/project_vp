@@ -67,7 +67,7 @@ implements LoginListener, ActionListener, KeyListener, MasterListener, ManageIte
     {
     private Vector<JPanel> historyPanel=new Vector<JPanel>();
     private JMenuBar menuBar, loginMenuBar;
-    private JMenu option, menu, currentUserMenu;
+    private JMenu  menu, currentUserMenu;
     private JMenuItem home, editProfile, language, manageItem, manageAdmin, manageSupplier, logout,orderItem,historyOrder;
     private User currentUser;
     
@@ -92,13 +92,6 @@ implements LoginListener, ActionListener, KeyListener, MasterListener, ManageIte
     {
         menuBar = new JMenuBar();
         this.setJMenuBar(menuBar);
-        option = new JMenu("Option");
-        option.setMnemonic(KeyEvent.VK_O);
-        language = new JMenuItem("Language");
-        language.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_L, ActionEvent.CTRL_MASK));
-        language.setMnemonic(KeyEvent.VK_L);
-        language.addActionListener(this);
-        option.add(language);
         logout = new JMenuItem("Logout");
         logout.addActionListener(this);
 //        menuBar.add(Box.createHorizontalGlue());
@@ -127,7 +120,6 @@ implements LoginListener, ActionListener, KeyListener, MasterListener, ManageIte
         historyOrder = new JMenuItem("History Order");
         historyOrder.addActionListener(this);
         historyOrder.setMnemonic(KeyEvent.VK_H);
-        menu.add(option);
         menuBar.add(menu);
 //        menuBar.add(option);
     }
@@ -160,15 +152,12 @@ implements LoginListener, ActionListener, KeyListener, MasterListener, ManageIte
                 masterPanel.addListener(this);
                 this.setVisible(false);
                 this.setContentPane(masterPanel);
-                menu.remove(option);
                 menu.add(home);
                 menu.add(manageItem);
                 menu.add(manageAdmin);
                 menu.add(manageSupplier);
                 menu.add(orderItem);
                 menu.add(historyOrder);
-                menu.addSeparator();
-                menu.add(option);
                 this.pack();
                 this.setVisible(true);
                 historyPanel.add(masterPanel);
@@ -179,14 +168,11 @@ implements LoginListener, ActionListener, KeyListener, MasterListener, ManageIte
                 adminPanel.addListener(this);
                 this.setVisible(false);
                 this.setContentPane(adminPanel);
-                menu.remove(option);
                 menu.add(home);
                 menu.add(manageItem);
                 menu.add(manageSupplier);
                 menu.add(orderItem);
                 menu.add(historyOrder);
-                menu.addSeparator();
-                menu.add(option);
                 this.pack();
                 this.setVisible(true);
                 historyPanel.add(adminPanel);
@@ -211,7 +197,6 @@ implements LoginListener, ActionListener, KeyListener, MasterListener, ManageIte
             this.setVisible(false);
             menuBar.removeAll();
             menu.removeAll();
-            menu.add(option);
             menuBar.add(menu);
             LoginPanel panel = new LoginPanel();
             this.setContentPane(panel);
