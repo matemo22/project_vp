@@ -1,17 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
-    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="1">
+        <file>
+            <url>src/projectvp/layout/AddItemPanel.java</url>
+            <bookmark id="1">
+                <name/>
+                <line>172</line>
+                <key/>
+            </bookmark>
+        </file>
+    </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/E:/project_vp/src/projectvp/database/ConnectionManager.java</file>
             <file>file:/E:/project_vp/src/projectvp/MainFrame.java</file>
-            <file>file:/E:/project_vp/src/projectvp/layout/AddAdminPanel.java</file>
-            <file>file:/E:/project_vp/src/projectvp/layout/ManageItemPanel.java</file>
-            <file>file:/E:/project_vp/src/projectvp/listener/ManageAdminListener.java</file>
-            <file>file:/E:/project_vp/src/projectvp/model/AdminTableModel.java</file>
+            <file>file:/E:/project_vp/src/projectvp/database/user/UserJdbcDao.java</file>
             <file>file:/E:/project_vp/src/projectvp/database/barang/BarangJdbcDao.java</file>
-            <file>file:/E:/project_vp/src/projectvp/listener/ManageItemListener.java</file>
-            <file>file:/E:/project_vp/src/projectvp/layout/ManageAdminPanel.java</file>
-            <file>file:/E:/project_vp/src/projectvp/model/ItemTableModel.java</file>
+            <file>file:/E:/project_vp/src/projectvp/database/supplier/SupplierJdbcDao.java</file>
+            <file>file:/E:/project_vp/src/projectvp/database/Brand/BrandJdbcDao.java</file>
         </group>
     </open-files>
 </project-private>
